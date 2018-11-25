@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Battleship</string>
+    <string name="level_easy">Easy</string>
+    <string name="level_medium">Medium</string>
+    <string name="level_hard">Hard</string>
+    <string name="new_game">Start new game</string>
 </resources>
