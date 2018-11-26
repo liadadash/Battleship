@@ -3,4 +3,9 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="NONE">#939393</color>
+    <color name="MY_SHIP">#00ff37</color>
+    <color name="INJURED">#1b1ed8</color>
+    <color name="INJURED_WITH_SHIPS">#dc2024</color>
+    <color name="DROWNED">#ff0004</color>
 </resources>

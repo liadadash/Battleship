@@ -1,7 +1,12 @@
 <resources>
     <string name="app_name">Battleship</string>
+    <string name="choose_level">Choose level</string>
     <string name="level_easy">Easy</string>
     <string name="level_medium">Medium</string>
     <string name="level_hard">Hard</string>
     <string name="new_game">Start new game</string>
+    <string name="your_turn">Player\'s turn</string>
+    <string name="computer_turn">Computer\'s Turn</string>
+    <string name="win">You WIN!!!</string>
+    <string name="lose">You LOSE</string>
 </resources>

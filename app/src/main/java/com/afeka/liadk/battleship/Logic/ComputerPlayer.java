@@ -6,11 +6,6 @@ public class ComputerPlayer extends Player {
     }
 
     @Override
-    public void locateShip() {
-
-    }
-
-    @Override
     public void play() {
 
     }

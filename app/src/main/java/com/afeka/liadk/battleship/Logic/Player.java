@@ -10,8 +10,5 @@ public abstract class Player {
         this.mHeight = height;
     }
 
-    abstract public void locateShip();
     abstract public void play();
-    //abstract public void locateShip();
-    //abstract public void locateShip();
 }
