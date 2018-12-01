@@ -1,21 +1,33 @@
 package com.afeka.liadk.battleship.Logic;
 
-public class Game {
-    private Player mCurrentPlayer;
-    private Player mComputerPlayer;
-    private Player mHumanPlayer;
+public class Game implements GameSettingsInterface {
 
-    public Game(int weight, int height) {
-        mComputerPlayer = new ComputerPlayer(weight, height);
-        mHumanPlayer = new HumanPlayer(weight, height);
-        mCurrentPlayer = mHumanPlayer;
+    private int mWidth;
+    private int mHeight;
+    private int[] mShips;
+    private Board mPlayerBoard, mCoumputerBoard;
+
+    public Game(Level level) {
+        setLevelSettings(level);
+        mPlayerBoard = new Board(mWidth, mHeight, mShips);
+        mCoumputerBoard = new Board(mWidth, mHeight,mShips);
     }
 
-    public void changeTurn() {
-        if (mCurrentPlayer == mHumanPlayer)
-            mCurrentPlayer = mComputerPlayer;
-        else
-            mCurrentPlayer = mHumanPlayer;
+    private void setLevelSettings(Level level) {
+        mWidth = level.getWidth();
+        mHeight = level.getHeight();
+        mShips = level.getShips();
     }
 
+    public int getNumColumns() {
+        return mWidth;
+    }
+
+    public Board getPlayerBoard() {
+        return mPlayerBoard;
+    }
+
+    public Board getCoumputerBoard() {
+        return mCoumputerBoard;
+    }
 }

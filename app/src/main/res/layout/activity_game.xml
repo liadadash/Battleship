@@ -7,10 +7,11 @@
     tools:context=".GameActivity"
     tools:layout_editor_absoluteY="81dp">
 
+
     <LinearLayout
         android:id="@+id/linearLayout"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
@@ -18,67 +19,82 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/playerTurn"
+                android:id="@+id/turn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:textSize="18sp" />
-
-            <Space
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
+                android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/numberOfShips"
+                android:id="@+id/shipsStatus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:textAlignment="viewEnd"
-                android:textSize="18sp" />
+                android:textStyle="bold" />
         </LinearLayout>
 
-        <Space
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="8dp" />
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <GridView
-            android:id="@+id/playerBoard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            <LinearLayout
+                android:id="@+id/gameSettings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="16dp" />
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:text="@string/game_settings" />
 
-        <GridView
-            android:id="@+id/computerBoard"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:background="@color/colorVacant"
+                    android:text="@string/cell_status_vacant" />
+
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:background="@color/colorOccupied"
+                    android:text="@string/cell_status_occupied" />
+
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:background="@color/colorUnknown"
+                    android:text="@string/cell_status_unknown" />
+
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:background="@color/colorMissed"
+                    android:text="@string/cell_status_missed" />
+
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:background="@color/colorHit"
+                    android:text="@string/cell_status_hit" />
+
+                <TextView
+                    style="@style/StyleSettingGameColor"
+                    android:background="@color/colorShipDrowned"
+                    android:text="@string/cell_status_ship_drowned" />
+
+            </LinearLayout>
+
+            <GridView
+                android:id="@+id/playerBoard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progressBar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:indeterminate="true"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

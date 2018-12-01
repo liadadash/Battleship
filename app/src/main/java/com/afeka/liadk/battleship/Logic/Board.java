@@ -1,33 +1,51 @@
 package com.afeka.liadk.battleship.Logic;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
 
     private Tile mTiles[];
-    private ArrayList<Ship> mShips;
+    private Ship mShips[];
 
-    public Board(int weight, int height, int numberOfShips, int shipSize) {
+    public Board(int weight, int height, int[] ships) {
 
         mTiles = new Tile[weight * height];
         for (int i = 0; i < mTiles.length; i++) {
             mTiles[i] = new Tile();
         }
-        setShips(numberOfShips, shipSize, weight);
+        mShips = new Ship[ships.length];
+        setShips(ships, weight, height);
     }
 
-    public void setShips(int numberOfShips, int shipSize, int weight) {
-        mShips = new ArrayList<>();
-        Tile temp[] = new Tile[numberOfShips];
-        for (int i = 0; i < numberOfShips; i++) {
-            for (int j = 0; j < shipSize; j++) {
-                temp[j] = mTiles[i * weight + j];
+    public int getBoardSize() {
+        return mTiles.length;
+    }
+
+    public Tile getTile(int position) {
+        return mTiles[position];
+    }
+
+    public void setShips(int[] ships, int weight, int height) {
+//        Random random = new Random();
+//        int row, column;
+//        for (int i = 0; i < ships.length; i++) {
+//            boolean found = false;
+//            do {
+//                row = random.nextInt(height);
+//                column = random.nextInt(weight);
+//                if (height-row)
+//                for (int j = 0; j < ships[i]; j++) {
+//
+//                }
+//            } while (!found)
+//        }
+        Tile shipTile[];
+        for (int i = 0; i < ships.length; i++) {
+            shipTile = new Tile[ships[i]];
+            for (int j = 0; j < ships[i]; j++) {
+                shipTile[j] = mTiles[i * weight + j];
             }
-            mShips.add(new Ship(shipSize, temp));
-            for (int j = 0; j < numberOfShips; j++) {
-                temp[j].setShip(mShips.get(i));
-            }
+            mShips[i]=new Ship(ships[i],shipTile);
         }
     }
 

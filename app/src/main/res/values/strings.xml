@@ -9,4 +9,11 @@
     <string name="computer_turn">Computer\'s Turn</string>
     <string name="win">You WIN!!!</string>
     <string name="lose">You LOSE</string>
+    <string name="game_settings">Game settings</string>
+    <string name="cell_status_vacant">Vacant</string>
+    <string name="cell_status_unknown">Unknown</string>
+    <string name="cell_status_occupied">Occupied</string>
+    <string name="cell_status_hit">Hit</string>
+    <string name="cell_status_missed">Missed</string>
+    <string name="cell_status_ship_drowned">Drowned</string>
 </resources>

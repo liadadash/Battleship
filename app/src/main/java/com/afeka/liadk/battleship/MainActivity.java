@@ -1,18 +1,16 @@
 package com.afeka.liadk.battleship;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.afeka.liadk.battleship.Logic.GameInterface;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 
-public class MainActivity extends AppCompatActivity implements GameInterface {
+public class MainActivity extends AppCompatActivity {
 
-    final static String LEVEL_MESSAGE = "LEVEL.MESSAGE";
-    final static String WIDTH = "WIDTH";
-    final static String HEIGHT = "HEIGHT";
-    final static String NUMBER_OF_SHIPS = "SHIPS";
+    final static String LEVEL_MESSAGE = "LEVEL";
+    final static String LEVEL_CHOOSEN = "CHOOSEN LEVEL";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,23 +20,17 @@ public class MainActivity extends AppCompatActivity implements GameInterface {
 
     public void onLevelButtonClicked(View view) {
         Intent intent = new Intent(this, GameActivity.class);
-        Bundle level = new Bundle();
+        Bundle bundleLevel = new Bundle();
         if (view.getId() == R.id.button_easy) {
-            level.putInt(WIDTH, widthEasy);
-            level.putInt(HEIGHT, heightEasy);
-            level.putInt(NUMBER_OF_SHIPS, numberOfShipsEasy);
+            bundleLevel.putSerializable(LEVEL_CHOOSEN, GameSettingsInterface.Level.Easy);
         } else {
             if (view.getId() == R.id.button_medium) {
-                level.putInt(WIDTH, widthMedium);
-                level.putInt(HEIGHT, heightMedium);
-                level.putInt(NUMBER_OF_SHIPS, numberOfShipsMedium);
+                bundleLevel.putSerializable(LEVEL_CHOOSEN, GameSettingsInterface.Level.Medium);
             } else {
-                level.putInt(WIDTH, widthHard);
-                level.putInt(HEIGHT, heightHard);
-                level.putInt(NUMBER_OF_SHIPS, numberOfShipsHard);
+                bundleLevel.putSerializable(LEVEL_CHOOSEN, GameSettingsInterface.Level.Hard);
             }
         }
-        intent.putExtra(LEVEL_MESSAGE, level);
+        intent.putExtra(LEVEL_MESSAGE, bundleLevel);
         startActivity(intent);
     }
 }

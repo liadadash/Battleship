@@ -1,16 +1,18 @@
 package com.afeka.liadk.battleship;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.GridView;
 import android.widget.TextView;
 
-public class GameActivity extends AppCompatActivity {
+import com.afeka.liadk.battleship.Logic.Game;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 
-    private int mWidth;
-    private int mHeight;
-    private int mNumberOfShips;
+public class GameActivity extends AppCompatActivity implements GameSettingsInterface {
+
+    private Game mGame;
+    private TextView turn;
     private GridView mPlayerBoard;
     private GridView mComputerBoard;
 
@@ -23,15 +25,18 @@ public class GameActivity extends AppCompatActivity {
         Bundle level = intent.getBundleExtra(MainActivity.LEVEL_MESSAGE);
 
         if (level != null) {
-            mWidth = level.getInt(MainActivity.WIDTH);
-            mHeight = level.getInt(MainActivity.HEIGHT);
-            mNumberOfShips = level.getInt(MainActivity.NUMBER_OF_SHIPS);
+            Level choosenLevel = (Level) level.getSerializable(MainActivity.LEVEL_CHOOSEN);
+            if (choosenLevel != null) {
+                mGame = new Game(choosenLevel);
+            }
         }
+        turn = (TextView)findViewById(R.id.playerTurn);
+        turn.setText(R.string.your_turn);
         mPlayerBoard = findViewById(R.id.playerBoard);
-        mComputerBoard = findViewById(R.id.computerBoard);
-    }
-
-    private void changeTurn(){
-
+        mPlayerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getPlayerBoard()));
+        mPlayerBoard.setNumColumns(mGame.getNumColumns());
+//        mComputerBoard = findViewById(R.id.computerBoard);
+//        mComputerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getCoumputerBoard()));
+//        mComputerBoard.setNumColumns(mGame.getNumColumns());
     }
 }
