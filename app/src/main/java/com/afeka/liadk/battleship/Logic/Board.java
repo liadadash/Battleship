@@ -1,9 +1,9 @@
 package com.afeka.liadk.battleship.Logic;
 
-import java.util.Random;
-
 public class Board {
 
+    private boolean mDidAllMyShipsDied = false;
+    private int mNumberOfShips;
     private Tile mTiles[];
     private Ship mShips[];
 
@@ -13,7 +13,8 @@ public class Board {
         for (int i = 0; i < mTiles.length; i++) {
             mTiles[i] = new Tile();
         }
-        mShips = new Ship[ships.length];
+        mNumberOfShips = ships.length;
+        mShips = new Ship[mNumberOfShips];
         setShips(ships, weight, height);
     }
 
@@ -26,30 +27,27 @@ public class Board {
     }
 
     public void setShips(int[] ships, int weight, int height) {
-//        Random random = new Random();
-//        int row, column;
-//        for (int i = 0; i < ships.length; i++) {
-//            boolean found = false;
-//            do {
-//                row = random.nextInt(height);
-//                column = random.nextInt(weight);
-//                if (height-row)
-//                for (int j = 0; j < ships[i]; j++) {
-//
-//                }
-//            } while (!found)
-//        }
         Tile shipTile[];
         for (int i = 0; i < ships.length; i++) {
             shipTile = new Tile[ships[i]];
             for (int j = 0; j < ships[i]; j++) {
                 shipTile[j] = mTiles[i * weight + j];
             }
-            mShips[i]=new Ship(ships[i],shipTile);
+            mShips[i] = new Ship(ships[i], shipTile);
         }
     }
 
-    public void attackTheBoard(int position) {
-        mTiles[position].hit();
+    public boolean attackTheBoard(int position) {
+        boolean hit = mTiles[position].hit();
+        if (hit && mTiles[position].getStatus() == Tile.TileState.DROWNED) {
+            mNumberOfShips--;
+            if (mNumberOfShips == 0)
+                mDidAllMyShipsDied = true;
+        }
+        return hit;
+    }
+
+    public boolean checkWinner() {
+        return mDidAllMyShipsDied;
     }
 }

@@ -19,4 +19,5 @@
     <string name="cell_status_hit">Hit</string>
     <string name="cell_status_missed">Missed</string>
     <string name="cell_status_ship_drowned">Drowned</string>
+    <string name="wait_to_computer_finish">Please wait to computer to finish turn</string>
 </resources>
