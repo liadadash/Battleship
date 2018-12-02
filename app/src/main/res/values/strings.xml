@@ -5,8 +5,11 @@
     <string name="level_medium">Medium</string>
     <string name="level_hard">Hard</string>
     <string name="new_game">Start new game</string>
+    <string name="turn">Turn: \</string>
     <string name="your_turn">Player\'s turn</string>
-    <string name="computer_turn">Computer\'s Turn</string>
+    <string name="computer_turn">Computer\'s turn</string>
+    <string name="your_board">Your board: </string>
+    <string name="computer_board">Computer\'s board: </string>
     <string name="win">You WIN!!!</string>
     <string name="lose">You LOSE</string>
     <string name="game_settings">Game settings</string>

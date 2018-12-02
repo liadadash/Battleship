@@ -7,16 +7,20 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 
 import com.afeka.liadk.battleship.Logic.Board;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 import com.afeka.liadk.battleship.Logic.Tile;
 
-public class TileAdapter extends BaseAdapter {
+public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
 
     private Context mContext;
     private Board mBoard;
+    private int mWidth, mHeight;
 
-    public TileAdapter(Context context, Board board) {
+    public TileAdapter(Context context, Board board, int width, int height) {
         mBoard = board;
         mContext = context;
+        mWidth = width;
+        mHeight = height;
     }
 
     @Override
@@ -40,8 +44,7 @@ public class TileAdapter extends BaseAdapter {
         TileView tileView;
         if (convertView == null) {
             tileView = new TileView(mContext);
-            tileView.setLayoutParams(new GridView.LayoutParams(200, 200));
-            //tileView.setPadding(8, 8, 8, 8);
+            tileView.setLayoutParams(new GridView.LayoutParams(mWidth, mHeight));
         } else {
             tileView = (TileView) convertView;
         }
@@ -53,15 +56,15 @@ public class TileAdapter extends BaseAdapter {
 
     private void checkTileStatus(TileView tileView, int position) {
         if (mBoard.getTile(position).getStatus() == Tile.TileState.NONE)
-            tileView.setBackgroundResource(R.color.NONE);
+            tileView.setBackgroundResource(R.color.colorUnknown);
         else if (mBoard.getTile(position).getStatus() == Tile.TileState.INJURED)
-            tileView.setBackgroundResource(R.color.INJURED);
+            tileView.setBackgroundResource(R.color.colorMissed);
         else if (mBoard.getTile(position).getStatus() == Tile.TileState.INJURED_WITH_SHIPS)
-            tileView.setBackgroundResource(R.color.INJURED_WITH_SHIPS);
+            tileView.setBackgroundResource(R.color.colorHit);
         else if (mBoard.getTile(position).getStatus() == Tile.TileState.DROWNED)
-            tileView.setBackgroundResource(R.color.DROWNED);
+            tileView.setBackgroundResource(R.color.colorShipDrowned);
         else if (mBoard.getTile(position).getStatus() == Tile.TileState.MY_SHIP)
-            tileView.setBackgroundResource(R.color.MY_SHIP);
+            tileView.setBackgroundResource(R.color.colorOccupied);
     }
 
 }

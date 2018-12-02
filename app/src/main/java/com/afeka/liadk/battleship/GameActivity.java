@@ -1,8 +1,11 @@
 package com.afeka.liadk.battleship;
 
 import android.content.Intent;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.DisplayMetrics;
+import android.view.Display;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -28,15 +31,22 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
             Level choosenLevel = (Level) level.getSerializable(MainActivity.LEVEL_CHOOSEN);
             if (choosenLevel != null) {
                 mGame = new Game(choosenLevel);
+                turn = (TextView) findViewById(R.id.playerTurn);
+                turn.setText(R.string.your_turn);
+                mPlayerBoard = findViewById(R.id.playerBoard);
+
+                Display display = getWindowManager().getDefaultDisplay();
+                Point size = new Point();
+                display.getSize(size);
+                int width = size.x;
+                int height = size.y;
+                mPlayerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getPlayerBoard(), width / (choosenLevel.getWidth() * 2), height / (choosenLevel.getHeight() * 4)));
+                mPlayerBoard.setNumColumns(mGame.getNumColumns());
+                mComputerBoard = findViewById(R.id.computerBoard);
+                mComputerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getCoumputerBoard(), (int) (width / (choosenLevel.getWidth() * 1.2)), height / (choosenLevel.getHeight() * 3)));
+                mComputerBoard.setNumColumns(mGame.getNumColumns());
             }
         }
-        turn = (TextView)findViewById(R.id.playerTurn);
-        turn.setText(R.string.your_turn);
-        mPlayerBoard = findViewById(R.id.playerBoard);
-        mPlayerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getPlayerBoard()));
-        mPlayerBoard.setNumColumns(mGame.getNumColumns());
-//        mComputerBoard = findViewById(R.id.computerBoard);
-//        mComputerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getCoumputerBoard()));
-//        mComputerBoard.setNumColumns(mGame.getNumColumns());
+
     }
 }
