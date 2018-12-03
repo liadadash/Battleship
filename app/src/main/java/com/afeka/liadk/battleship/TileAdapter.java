@@ -60,7 +60,7 @@ public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
     private void checkTileStatus(TileView tileView, int position) {
         if (mBoard.getTile(position).getStatus() == Tile.TileState.NONE && mPlayer == Game.Player.HumanPlayer) {
             tileView.setBackgroundResource(R.color.colorUnknown);
-        } else if (mBoard.getTile(position).getStatus() == Tile.TileState.INJURED)
+        } else if (mBoard.getTile(position).getStatus() == Tile.TileState.MISS)
             tileView.setBackgroundResource(R.color.colorMissed);
         else if (mBoard.getTile(position).getStatus() == Tile.TileState.INJURED_WITH_SHIPS)
             tileView.setBackgroundResource(R.color.colorHit);

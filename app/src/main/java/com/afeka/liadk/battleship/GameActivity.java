@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
 import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 
@@ -23,6 +24,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     private TextView turn;
     private GridView mPlayerBoard;
     private GridView mComputerBoard;
+    private ComputerPlayer mComputerPlayer;
     private ProgressBar mProgressBar;
 
     @Override
@@ -42,7 +44,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                 mProgressBar.setVisibility(View.INVISIBLE);
                 mGame = new Game(choosenLevel);
                 mPlayerBoard = findViewById(R.id.playerBoard);
-
+                mComputerPlayer = new ComputerPlayer(choosenLevel, mGame.getPlayerBoard());
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
@@ -60,34 +62,39 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                             boolean playerHit = mGame.getCoumputerBoard().attackTheBoard(posotion);
                             if (playerHit) {
                                 ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
-                                ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.VISIBLE);
+                                mProgressBar.setVisibility(View.VISIBLE);
                                 turn.setText(R.string.computer_turn);
-                                //mGame.changeTurn();
+                                mGame.changeTurn();
                                 if (mGame.getCoumputerBoard().checkWinner()) {
                                     bundleWinner.putString(WINNER, getResources().getString(R.string.win));
                                     intentResult.putExtra(WINNER, bundleWinner);
                                     startActivity(intentResult);
                                     finish();
                                 } else {
-
+                                    Thread t = new Thread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            mComputerPlayer.play();
+                                            runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_LONG).show();
+                                                    ((TileAdapter) mPlayerBoard.getAdapter()).notifyDataSetChanged();
+                                                    if (mGame.getPlayerBoard().checkWinner()) {
+                                                        bundleWinner.putString(WINNER, getResources().getString(R.string.lose));
+                                                        intentResult.putExtra(WINNER, bundleWinner);
+                                                        startActivity(intentResult);
+                                                        finish();
+                                                    }
+                                                    turn.setText(R.string.your_turn);
+                                                    mProgressBar.setVisibility(View.INVISIBLE);
+                                                    mGame.changeTurn();
+                                                }
+                                            });
+                                        }
+                                    });
+                                    t.start();
                                 }
-//                                Thread t = new Thread(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        mGame.playComputer();
-//
-//                                        runOnUiThread(new Runnable() {
-//                                            @Override
-//                                            public void run() {
-//                                                Toast.makeText(getApplicationContext(), "Computer Finihsed his turn", Toast.LENGTH_LONG).show();
-//                                                ((TileAdapter) mGrid.getAdapter()).notifyDataSetChanged();
-//                                                ((TextView) findViewById(R.id.playerText)).setText("Player's Turn");
-//                                                ((ProgressBar) findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
-//
-//                                            }
-//                                        });
-//                                    }
-//                                });
                             }
                         } else {
                             Toast.makeText(getApplicationContext(), R.string.wait_to_computer_finish, Toast.LENGTH_SHORT).show();

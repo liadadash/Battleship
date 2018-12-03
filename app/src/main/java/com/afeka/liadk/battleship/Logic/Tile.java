@@ -2,7 +2,7 @@ package com.afeka.liadk.battleship.Logic;
 
 public class Tile {
 
-    public enum TileState {NONE, SHIP, INJURED, INJURED_WITH_SHIPS, DROWNED;}
+    public enum TileState {NONE, SHIP, MISS, INJURED_WITH_SHIPS, DROWNED;}
 
     private TileState mStatus;
     private Ship mShip;
@@ -21,7 +21,7 @@ public class Tile {
             if (mShip != null) {
                 mStatus = TileState.INJURED_WITH_SHIPS;
                 mShip.injured();
-            } else mStatus = TileState.INJURED;
+            } else mStatus = TileState.MISS;
             return true;
         }
         return false;
