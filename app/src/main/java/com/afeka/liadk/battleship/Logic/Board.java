@@ -1,7 +1,5 @@
 package com.afeka.liadk.battleship.Logic;
 
-import android.util.Log;
-
 import java.util.Random;
 
 public class Board {
@@ -55,7 +53,7 @@ public class Board {
                             shipTile[i][j] = mTiles[(y + j) * weight + x];
                         succeeded = mShips[i].setShipToTile(shipTile[i]);
                         if (succeeded)
-                        count++;
+                            count++;
                     } else {
                         x = random.nextInt(weight - ships[i]);
                         y = random.nextInt(height);

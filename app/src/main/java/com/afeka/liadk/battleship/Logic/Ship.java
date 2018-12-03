@@ -15,7 +15,7 @@ public class Ship {
         for (int i = 0; i < mSize; i++) {
             succeeded = tiles[i].setShip(this);
             if (!succeeded) {
-                for (int j = i-1; j >= 0; j--) {
+                for (int j = i - 1; j >= 0; j--) {
                     tiles[j].removeShip();
                 }
                 return false;

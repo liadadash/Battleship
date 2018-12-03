@@ -21,4 +21,7 @@
     <string name="cell_status_ship_drowned">Drowned</string>
     <string name="wait_to_computer_finish">Please wait to computer to finish turn</string>
     <string name="computer_finish_turn">Computer finihsed his turn</string>
+    <string name="logo">logo</string>
+    <string name="ship">ship</string>
+    <string name="blood">blood</string>
 </resources>

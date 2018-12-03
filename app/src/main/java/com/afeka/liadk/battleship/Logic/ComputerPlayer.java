@@ -1,7 +1,6 @@
 package com.afeka.liadk.battleship.Logic;
 
 import android.graphics.Point;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -46,7 +45,7 @@ public class ComputerPlayer {
         }
     }
 
-    private boolean Shoot(Direction direction, int index) {
+    private boolean shoot(Direction direction, int index) {
         int x = mHitX, y = mHitY, pos;
         if (direction == Direction.vertical) {
             x += index;
@@ -58,6 +57,8 @@ public class ComputerPlayer {
                 return false;
         }
         pos = y * mWidth + x;
+        if (pos >= (mWidth * mHeight))
+            return false;
         Tile tile = mBorad.getTile(pos);
         if (tile.getStatus() == Tile.TileState.NONE || tile.getStatus() == Tile.TileState.SHIP) {
             mBorad.attackTheBoard(pos);
@@ -104,14 +105,14 @@ public class ComputerPlayer {
             int pos;
             if (!goodDirection) {
                 mIndex = 1;
-                isShoot = Shoot(Direction.vertical, mIndex);//left
+                isShoot = shoot(Direction.vertical, mIndex);//left
                 if (!isShoot)
-                    isShoot = Shoot(Direction.horizon, mIndex);//down
+                    isShoot = shoot(Direction.horizon, mIndex);//down
                 if (!isShoot) {
                     mIndex = -1;
-                    isShoot = Shoot(Direction.vertical, mIndex);//right
+                    isShoot = shoot(Direction.vertical, mIndex);//right
                     if (!isShoot)
-                        isShoot = Shoot(Direction.horizon, mIndex);//up
+                        isShoot = shoot(Direction.horizon, mIndex);//up
                 }
             } else {
                 if (!missed) {
@@ -121,7 +122,7 @@ public class ComputerPlayer {
                         mIndex--;
                 } else
                     missed = false;
-                isShoot = Shoot(mLastDirection, mIndex);
+                isShoot = shoot(mLastDirection, mIndex);
                 int tempX = mHitX, tempY = mHitY;
                 if (mLastDirection == Direction.vertical)
                     tempX += mIndex;

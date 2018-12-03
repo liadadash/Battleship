@@ -5,10 +5,8 @@ import android.graphics.Point;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -17,7 +15,6 @@ import android.widget.Toast;
 import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
 import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
-import com.afeka.liadk.battleship.Logic.Tile;
 
 public class GameActivity extends AppCompatActivity implements GameSettingsInterface {
 
