@@ -5,12 +5,30 @@ public class Ship {
     private boolean isDead;
     private Tile mTiles[];
 
-    public Ship(int size, Tile tiles[]) {
+    public Ship(int size) {
         isDead = false;
         mSize = size;
+    }
+
+    public boolean setShipToTile(Tile tiles[]) {
+        boolean succeeded;
+        for (int i = 0; i < mSize; i++) {
+            succeeded = tiles[i].setShip(this);
+            if (!succeeded) {
+                for (int j = i-1; j >= 0; j--) {
+                    tiles[j].removeShip();
+                }
+                return false;
+            }
+        }
         mTiles = tiles;
-        for (int i = 0; i < mTiles.length; i++)
-            mTiles[i].setShip(this);
+        return true;
+    }
+
+    public void unsubscribeTile() {
+        for (int i = 0; i < mSize; i++)
+            mTiles[i].removeShip();
+        mTiles = null;
     }
 
     public void injured() {

@@ -117,9 +117,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
+                    android:horizontalSpacing="5dp"
                     android:stretchMode="columnWidth"
-                    android:verticalSpacing="5dp"
-                    android:horizontalSpacing="5dp"/>
+                    android:verticalSpacing="5dp" />
             </LinearLayout>
         </LinearLayout>
 
@@ -147,8 +147,8 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="16dp"
                     android:gravity="center_horizontal"
-                    android:stretchMode="columnWidth"
                     android:horizontalSpacing="5dp"
+                    android:stretchMode="columnWidth"
                     android:verticalSpacing="5dp" />
 
             </LinearLayout>
@@ -160,13 +160,13 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:indeterminate="true"
-        android:indeterminateTintMode="src_atop"
-        android:indeterminateTint="@color/progressBar"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:indeterminate="true"
+        android:indeterminateTint="@color/progressBar"
+        android:indeterminateTintMode="src_atop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

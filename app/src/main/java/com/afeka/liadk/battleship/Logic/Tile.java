@@ -11,9 +11,18 @@ public class Tile {
         mStatus = TileState.NONE;
     }
 
-    public void setShip(Ship ship) {
-        mStatus = TileState.SHIP;
-        mShip = ship;
+    public boolean setShip(Ship ship) {
+        if (mStatus == TileState.NONE) {
+            mStatus = TileState.SHIP;
+            mShip = ship;
+            return true;
+        }
+        return false;
+    }
+
+    public void removeShip() {
+        mStatus = TileState.NONE;
+        mShip = null;
     }
 
     public boolean hit() {

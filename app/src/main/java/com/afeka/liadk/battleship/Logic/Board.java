@@ -1,6 +1,12 @@
 package com.afeka.liadk.battleship.Logic;
 
+import android.util.Log;
+
+import java.util.Random;
+
 public class Board {
+
+    private final int SHIPS_TRY = 2;
 
     private boolean mDidAllMyShipsDied = false;
     private int mNumberOfShips;
@@ -27,14 +33,45 @@ public class Board {
     }
 
     public void setShips(int[] ships, int weight, int height) {
-        Tile shipTile[];
+        Tile shipTile[][] = new Tile[ships.length][];
+        boolean succeeded;
+        Random random = new Random();
+        int temp, x, y;
         for (int i = 0; i < ships.length; i++) {
-            shipTile = new Tile[ships[i]];
-            for (int j = 0; j < ships[i]; j++) {
-                shipTile[j] = mTiles[i * weight + j];
-            }
-            mShips[i] = new Ship(ships[i], shipTile);
+            mShips[i] = new Ship(ships[i]);
+            shipTile[i] = new Tile[ships[i]];
         }
+        int count;
+        do {
+            succeeded = true;
+            for (int i = 0; i < ships.length; i++) {
+                count = 0;
+                do {
+                    temp = random.nextInt(2);
+                    if (temp == 0) {
+                        x = random.nextInt(weight);
+                        y = random.nextInt(height - ships[i]);
+                        for (int j = 0; j < ships[i]; j++)
+                            shipTile[i][j] = mTiles[(y + j) * weight + x];
+                        succeeded = mShips[i].setShipToTile(shipTile[i]);
+                        if (succeeded)
+                        count++;
+                    } else {
+                        x = random.nextInt(weight - ships[i]);
+                        y = random.nextInt(height);
+                        for (int j = 0; j < ships[i]; j++)
+                            shipTile[i][j] = mTiles[y * weight + x + j];
+                        succeeded = mShips[i].setShipToTile(shipTile[i]);
+                        count++;
+                    }
+                } while (!succeeded && count < SHIPS_TRY);
+                if (!succeeded) {
+                    for (int j = i - 1; j >= 0; j--)
+                        mShips[j].unsubscribeTile();
+                    break;
+                }
+            }
+        } while (!succeeded);
     }
 
     public boolean attackTheBoard(int position) {
