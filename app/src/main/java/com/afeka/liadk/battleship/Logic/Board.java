@@ -22,6 +22,10 @@ public class Board {
         setShips(ships, weight, height);
     }
 
+    public int getNumberOfShips() {
+        return mNumberOfShips;
+    }
+
     public int getBoardSize() {
         return mTiles.length;
     }

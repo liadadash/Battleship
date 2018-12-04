@@ -128,8 +128,11 @@ public class ComputerPlayer {
                     tempX += mIndex;
                 else
                     tempY += mIndex;
-                Tile.TileState state = mBorad.getTile(tempY * mWidth + tempX).getStatus();
-                if (!isShoot || state == Tile.TileState.MISS) {
+                pos = tempY * mWidth + tempX;
+                Tile.TileState state = null;
+                if (pos >= 0 && pos < mWidth * mHeight)
+                    state = mBorad.getTile(tempY * mWidth + tempX).getStatus();
+                if (!isShoot || state == null || state == Tile.TileState.MISS) {
                     goodDirection = true;
                     missed = true;
                     if (!endLine) {

@@ -18,32 +18,52 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <Button
-        android:id="@+id/restGame"
+    <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="80dp"
-        android:gravity="center"
-        android:onClick="createNewGame"
-        android:text="@string/new_game"
-        android:textSize="18sp"
-        android:textStyle="bold"
+        android:layout_marginBottom="100dp"
+        android:gravity="bottom"
+        android:orientation="horizontal"
+        android:layout_margin="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/restGame"
+            style="@style/ResultButton"
+            android:onClick="createNewGame"
+            android:text="@string/new_game"/>
+
+        <Button
+            android:id="@+id/button"
+            style="@style/ResultButton"
+            android:layout_marginStart="20dp"
+            android:onClick="tryAgainGame"
+            android:text="@string/try_again" />
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/ship"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/ship"
-        android:contentDescription="@string/ship" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/ship"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ship" />
 
     <ImageView
         android:id="@+id/blood"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:srcCompat="@drawable/blood"
-        android:contentDescription="@string/blood" />
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:contentDescription="@string/blood"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/blood" />
 
 </android.support.constraint.ConstraintLayout>
