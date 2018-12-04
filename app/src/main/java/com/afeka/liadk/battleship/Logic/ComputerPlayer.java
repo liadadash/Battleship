@@ -49,15 +49,15 @@ public class ComputerPlayer {
         int x = mHitX, y = mHitY, pos;
         if (direction == Direction.vertical) {
             x += index;
-            if (x > mWidth - 1 || x < 0)
+            if (x >= mWidth || x < 0)
                 return false;
         } else {
             y += index;
-            if (y > mHeight - 1 || y < 0)
+            if (y >= mHeight || y < 0)
                 return false;
         }
         pos = y * mWidth + x;
-        if (pos >= (mWidth * mHeight))
+        if (pos >= (mWidth * mHeight) || pos < 0)
             return false;
         Tile tile = mBorad.getTile(pos);
         if (tile.getStatus() == Tile.TileState.NONE || tile.getStatus() == Tile.TileState.SHIP) {
