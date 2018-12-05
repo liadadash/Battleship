@@ -29,7 +29,8 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     private ProgressBar mProgressBar;
     private Level mChoosenLevel;
     private int mLevelNumberOfShip, mNumberOfDeadShip;
-    private TextView mGameStatus;
+    private TextView mGameStatusComputer, mGameStatusPlayer;
+    private StringBuilder mShipComputer, mShipsPlayer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,8 +53,12 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                 mProgressBar.setVisibility(View.INVISIBLE);
                 mGame = new Game(mChoosenLevel);
                 mLevelNumberOfShip = mGame.getPlayerBoard().getNumberOfShips();
-                mGameStatus = ((TextView) findViewById(R.id.shipsStatus));
-                mGameStatus.setText(new String("0/" + mLevelNumberOfShip));
+                mShipComputer = new StringBuilder("0/" + mLevelNumberOfShip);
+                mShipsPlayer = new StringBuilder("0/" + mLevelNumberOfShip);
+                mGameStatusComputer = ((TextView) findViewById(R.id.shipsStatusComputer));
+                mGameStatusComputer.setText(mShipComputer);
+                mGameStatusPlayer = ((TextView) findViewById(R.id.shipsStatusPlayer));
+                mGameStatusPlayer.setText(mShipsPlayer);
                 mPlayerBoard = findViewById(R.id.playerBoard);
                 mComputerPlayer = new ComputerPlayer(mChoosenLevel, mGame.getPlayerBoard());
                 Display display = getWindowManager().getDefaultDisplay();
@@ -72,10 +77,9 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                         if (mGame.getCurrentPlayer() == Game.Player.HumanPlayer) {
                             boolean playerHit = mGame.getCoumputerBoard().attackTheBoard(posotion);
                             if (playerHit) {
-                                mGameStatus.setText(new String(mLevelNumberOfShip - mGame.getCoumputerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip));
                                 ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
-                                mProgressBar.setVisibility(View.VISIBLE);
-                                turn.setText(R.string.computer_turn);
+                                mShipsPlayer = new StringBuilder(mLevelNumberOfShip - mGame.getCoumputerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
+                                mGameStatusPlayer.setText(mShipsPlayer);
                                 mGame.changeTurn();
                                 if (mGame.getCoumputerBoard().checkWinner()) {
                                     bundleWinner.putString(WHO_WIN, getResources().getString(R.string.win));
@@ -83,6 +87,8 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                                     startActivity(intentResult);
                                     finish();
                                 } else {
+                                    mProgressBar.setVisibility(View.VISIBLE);
+                                    turn.setText(R.string.computer_turn);
                                     Thread t = new Thread(new Runnable() {
                                         @Override
                                         public void run() {
@@ -90,14 +96,16 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                                             runOnUiThread(new Runnable() {
                                                 @Override
                                                 public void run() {
-                                                    Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
                                                     ((TileAdapter) mPlayerBoard.getAdapter()).notifyDataSetChanged();
+                                                    mShipComputer = new StringBuilder(mLevelNumberOfShip - mGame.getPlayerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
+                                                    mGameStatusComputer.setText(mShipComputer);
                                                     if (mGame.getPlayerBoard().checkWinner()) {
                                                         bundleWinner.putString(WHO_WIN, getResources().getString(R.string.lose));
                                                         intentResult.putExtra(GAME_STATUS, bundleWinner);
                                                         startActivity(intentResult);
                                                         finish();
                                                     }
+                                                    Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
                                                     turn.setText(R.string.your_turn);
                                                     mProgressBar.setVisibility(View.INVISIBLE);
                                                     mGame.changeTurn();

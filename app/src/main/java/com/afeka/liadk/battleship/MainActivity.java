@@ -33,6 +33,5 @@ public class MainActivity extends AppCompatActivity {
         }
         intent.putExtra(LEVEL_MESSAGE, bundleLevel);
         startActivity(intent);
-        finish();
     }
 }

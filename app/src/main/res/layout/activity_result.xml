@@ -22,19 +22,19 @@
         android:id="@+id/linearLayout2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="100dp"
+        android:layout_margin="100dp"
         android:gravity="bottom"
         android:orientation="horizontal"
-        android:layout_margin="50dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/restGame"
             style="@style/ResultButton"
             android:onClick="createNewGame"
-            android:text="@string/new_game"/>
+            android:text="@string/new_game" />
 
         <Button
             android:id="@+id/button"
