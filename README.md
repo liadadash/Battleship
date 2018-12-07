@@ -12,7 +12,7 @@ attleship (also Battleships or Sea Battle[1]) is a guessing game for two players
 ![Playing](https://user-images.githubusercontent.com/43498633/49619562-b0824100-f9c5-11e8-9338-4594ffd926be.png)
 
 ### Win
-![Win](https://user-images.githubusercontent.com/43498633/49619564-b1b36e00-f9c5-11e8-936c-a642215011f0.png)
+![Win](https://user-images.githubusercontent.com/43498633/49644407-0cc67e80-fa21-11e8-8a94-82c6f990da54.png)
 
 ### Lose
-![Lose](https://user-images.githubusercontent.com/43498633/49619612-f2ab8280-f9c5-11e8-818a-8d42e2dd19df.png)
+![Lose](https://user-images.githubusercontent.com/43498633/49644409-0df7ab80-fa21-11e8-9020-c2848a2a3fc6.png)
