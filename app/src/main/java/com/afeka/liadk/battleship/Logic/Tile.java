@@ -37,6 +37,7 @@ public class Tile {
     }
 
     public void shipDead() {
+        mStatus = null;
         mStatus = TileState.DROWNED;
     }
 

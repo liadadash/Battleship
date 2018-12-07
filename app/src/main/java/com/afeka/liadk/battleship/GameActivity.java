@@ -28,9 +28,11 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     private ComputerPlayer mComputerPlayer;
     private ProgressBar mProgressBar;
     private Level mChoosenLevel;
-    private int mLevelNumberOfShip, mNumberOfDeadShip;
+    private int mLevelNumberOfShip;
     private TextView mGameStatusComputer, mGameStatusPlayer;
     private StringBuilder mShipComputer, mShipsPlayer;
+    private Intent mIntentResult;
+    private Bundle mBundleWinner;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,25 +44,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         if (level != null) {
             mChoosenLevel = (Level) level.getSerializable(MainActivity.LEVEL_CHOOSEN);
             if (mChoosenLevel != null) {
-                final Intent intentResult = new Intent(this, ResultActivity.class);
-                final Bundle bundleWinner = new Bundle();
-                Bundle bundleGameLevel = new Bundle();
-                bundleGameLevel.putSerializable(MainActivity.LEVEL_CHOOSEN, mChoosenLevel);
-                intentResult.putExtra(MainActivity.LEVEL_MESSAGE, bundleGameLevel);
-                mProgressBar = ((ProgressBar) findViewById(R.id.progressBar));
-                turn = (TextView) findViewById(R.id.playerTurn);
-                turn.setText(R.string.your_turn);
-                mProgressBar.setVisibility(View.INVISIBLE);
-                mGame = new Game(mChoosenLevel);
-                mLevelNumberOfShip = mGame.getPlayerBoard().getNumberOfShips();
-                mShipComputer = new StringBuilder("0/" + mLevelNumberOfShip);
-                mShipsPlayer = new StringBuilder("0/" + mLevelNumberOfShip);
-                mGameStatusComputer = ((TextView) findViewById(R.id.shipsStatusComputer));
-                mGameStatusComputer.setText(mShipComputer);
-                mGameStatusPlayer = ((TextView) findViewById(R.id.shipsStatusPlayer));
-                mGameStatusPlayer.setText(mShipsPlayer);
-                mPlayerBoard = findViewById(R.id.playerBoard);
-                mComputerPlayer = new ComputerPlayer(mChoosenLevel, mGame.getPlayerBoard());
+                init();
                 Display display = getWindowManager().getDefaultDisplay();
                 Point size = new Point();
                 display.getSize(size);
@@ -68,7 +52,6 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                 int height = size.y;
                 mPlayerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getPlayerBoard(), width / (mChoosenLevel.getWidth() * 2), height / (mChoosenLevel.getHeight() * 4), Game.Player.HumanPlayer));
                 mPlayerBoard.setNumColumns(mGame.getNumColumns());
-                mComputerBoard = findViewById(R.id.computerBoard);
                 mComputerBoard.setAdapter(new TileAdapter(getApplicationContext(), mGame.getCoumputerBoard(), (int) (width / (mChoosenLevel.getWidth() * 1.2)), height / (mChoosenLevel.getHeight() * 3), Game.Player.ComputerPlayer));
                 mComputerBoard.setNumColumns(mGame.getNumColumns());
                 mComputerBoard.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -82,9 +65,9 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                                 mGameStatusPlayer.setText(mShipsPlayer);
                                 mGame.changeTurn();
                                 if (mGame.getCoumputerBoard().checkWinner()) {
-                                    bundleWinner.putString(WHO_WIN, getResources().getString(R.string.win));
-                                    intentResult.putExtra(GAME_STATUS, bundleWinner);
-                                    startActivity(intentResult);
+                                    mBundleWinner.putString(WHO_WIN, getResources().getString(R.string.win));
+                                    mIntentResult.putExtra(GAME_STATUS, mBundleWinner);
+                                    startActivity(mIntentResult);
                                     finish();
                                 } else {
                                     mProgressBar.setVisibility(View.VISIBLE);
@@ -100,9 +83,9 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                                                     mShipComputer = new StringBuilder(mLevelNumberOfShip - mGame.getPlayerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
                                                     mGameStatusComputer.setText(mShipComputer);
                                                     if (mGame.getPlayerBoard().checkWinner()) {
-                                                        bundleWinner.putString(WHO_WIN, getResources().getString(R.string.lose));
-                                                        intentResult.putExtra(GAME_STATUS, bundleWinner);
-                                                        startActivity(intentResult);
+                                                        mBundleWinner.putString(WHO_WIN, getResources().getString(R.string.lose));
+                                                        mIntentResult.putExtra(GAME_STATUS, mBundleWinner);
+                                                        startActivity(mIntentResult);
                                                         finish();
                                                     }
                                                     Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
@@ -124,5 +107,27 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
             }
         }
 
+    }
+
+    private void init() {
+        mIntentResult = new Intent(this, ResultActivity.class);
+        mBundleWinner = new Bundle();
+        Bundle bundleGameLevel = new Bundle();
+        bundleGameLevel.putSerializable(MainActivity.LEVEL_CHOOSEN, mChoosenLevel);
+        mIntentResult.putExtra(MainActivity.LEVEL_MESSAGE, bundleGameLevel);
+        mProgressBar = ((ProgressBar) findViewById(R.id.progressBar));
+        mProgressBar.setVisibility(View.INVISIBLE);
+        turn = (TextView) findViewById(R.id.playerTurn);
+        turn.setText(R.string.your_turn);
+        mGame = new Game(mChoosenLevel);
+        mLevelNumberOfShip = mGame.getPlayerBoard().getNumberOfShips();
+        StringBuilder str = new StringBuilder("0/" + mLevelNumberOfShip);
+        mGameStatusComputer = ((TextView) findViewById(R.id.shipsStatusComputer));
+        mGameStatusComputer.setText(str);
+        mGameStatusPlayer = ((TextView) findViewById(R.id.shipsStatusPlayer));
+        mGameStatusPlayer.setText(str);
+        mPlayerBoard = findViewById(R.id.playerBoard);
+        mComputerBoard = findViewById(R.id.computerBoard);
+        mComputerPlayer = new ComputerPlayer(mChoosenLevel, mGame.getPlayerBoard());
     }
 }

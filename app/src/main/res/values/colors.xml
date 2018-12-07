@@ -15,4 +15,22 @@
     <color name="mediumLevel">#ffff00</color>
     <color name="hardLevel">#ff0000</color>
     <color name="white">#ffffff</color>
+
+    <color name="win11">#03A9F4</color>
+    <color name="win12">#00BCD4</color>
+    <color name="win21">#2196F3</color>
+    <color name="win22">#3F51B5</color>
+    <color name="win31">#673AB7</color>
+    <color name="win32">#9C27B0</color>
+
+    <color name="lose11">#ff6a00</color>
+    <color name="lose12">#ee0979</color>
+    <color name="lose21">#DA4453</color>
+    <color name="lose22">#c31432</color>
+    <color name="lose31">#89216B</color>
+    <color name="lose32">#240b36</color>
+
+    <color name="resultButton1">#28abdf</color>
+    <color name="resultButton2">#ab28df</color>
+
 </resources>

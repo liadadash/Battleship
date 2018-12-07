@@ -34,8 +34,10 @@ public class Ship {
     public void injured() {
         mSize--;
         if (mSize == 0) {
-            for (int i = 0; i < mTiles.length; i++)
+            for (int i = 0; i < mTiles.length; i++) {
                 mTiles[i].shipDead();
+                mTiles[i] = null;
+            }
         }
     }
 }

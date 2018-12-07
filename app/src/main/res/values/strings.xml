@@ -24,5 +24,5 @@
     <string name="computer_finish_turn">Computer finihsed his turn</string>
     <string name="logo">logo</string>
     <string name="ship">ship</string>
-    <string name="blood">blood</string>
+    <string name="target">target</string>
 </resources>

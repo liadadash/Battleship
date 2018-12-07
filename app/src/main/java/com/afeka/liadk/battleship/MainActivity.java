@@ -1,9 +1,10 @@
 package com.afeka.liadk.battleship;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
@@ -17,6 +18,9 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AnimationDrawable animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.animation_list, null);
+        ((ConstraintLayout)findViewById(R.id.mainActivity)).setBackground(animationDrawable);
+        animationDrawable.start();
     }
 
     public void onLevelButtonClicked(View view) {
