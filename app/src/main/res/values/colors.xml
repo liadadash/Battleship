@@ -14,6 +14,7 @@
     <color name="easyLevel">#00ff00</color>
     <color name="mediumLevel">#ffff00</color>
     <color name="hardLevel">#ff0000</color>
+    <color name="lastLevel">#2196F3</color>
     <color name="white">#ffffff</color>
 
     <color name="win11">#03A9F4</color>

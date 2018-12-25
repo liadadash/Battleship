@@ -3,7 +3,7 @@ package com.afeka.liadk.battleship.Logic;
 public interface GameSettingsInterface {
 
     enum Level {
-        Easy, Medium, Hard;
+        Easy, Medium, Hard , Unknown;
 
         private int widthEasy = 4;
         private int heightEasy = 4;
