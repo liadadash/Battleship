@@ -72,5 +72,4 @@ public class MainStartFragment extends Fragment {
     public void registerListener(onButtonTouchedListener listener) {
         this.mListener = listener;
     }
-
 }

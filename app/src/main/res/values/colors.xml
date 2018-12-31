@@ -16,6 +16,7 @@
     <color name="hardLevel">#ff0000</color>
     <color name="lastLevel">#2196F3</color>
     <color name="white">#ffffff</color>
+    <color name="black">#000000</color>
 
     <color name="win11">#03A9F4</color>
     <color name="win12">#00BCD4</color>
@@ -36,4 +37,6 @@
 
     <color name="startButton1">#00BCD4</color>
     <color name="startButton2">#9C27B0</color>
+
+    <color name="alertDialog">#781cc9</color>
 </resources>

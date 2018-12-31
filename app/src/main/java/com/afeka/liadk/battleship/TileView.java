@@ -7,7 +7,5 @@ public class TileView extends LinearLayout {
 
     public TileView(Context context) {
         super(context);
-
     }
-
 }

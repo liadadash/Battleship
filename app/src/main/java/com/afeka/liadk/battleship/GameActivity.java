@@ -20,6 +20,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
 
     final static String GAME_STATUS = "STATUS";
     final static String WHO_WIN = "WHO WIN";
+    final static String NUMBER_OF_STEPS = "STEPS";
 
     private Game mGame;
     private TextView turn;
@@ -33,6 +34,8 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     private StringBuilder mShipComputer, mShipsPlayer;
     private Intent mIntentResult;
     private Bundle mBundleWinner;
+    private Bundle mBundleWinnerSteps;
+    private int mSteps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,16 +63,18 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                         if (mGame.getCurrentPlayer() == Game.Player.HumanPlayer) {
                             boolean playerHit = mGame.getCoumputerBoard().attackTheBoard(posotion);
                             if (playerHit) {
+                                mSteps++;
                                 ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
                                 mShipsPlayer = new StringBuilder(mLevelNumberOfShip - mGame.getCoumputerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
                                 mGameStatusPlayer.setText(mShipsPlayer);
-                                mGame.changeTurn();
                                 if (mGame.getCoumputerBoard().checkWinner()) {
                                     mBundleWinner.putString(WHO_WIN, getResources().getString(R.string.win));
+                                    mBundleWinner.putInt(NUMBER_OF_STEPS, mSteps);
                                     mIntentResult.putExtra(GAME_STATUS, mBundleWinner);
                                     startActivity(mIntentResult);
                                     finish();
                                 } else {
+                                    mGame.changeTurn();
                                     mProgressBar.setVisibility(View.VISIBLE);
                                     turn.setText(R.string.computer_turn);
                                     Thread t = new Thread(new Runnable() {
@@ -111,6 +116,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     }
 
     private void init() {
+        mSteps = 0;
         mIntentResult = new Intent(this, ResultActivity.class);
         mBundleWinner = new Bundle();
         Bundle bundleGameLevel = new Bundle();

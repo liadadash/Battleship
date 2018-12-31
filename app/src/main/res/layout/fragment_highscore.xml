@@ -45,4 +45,9 @@
             android:text="@string/level_easy" />
 
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/userData"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 </LinearLayout>
