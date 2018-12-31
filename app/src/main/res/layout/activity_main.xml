@@ -1,73 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainActivity"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/mainActivity"
+    android:orientation="vertical"
     tools:context=".MainActivity">
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:contentDescription="@string/logo"
-        android:foregroundGravity="top"
-        app:srcCompat="@drawable/logo" />
-
-    <TextView
-        android:id="@+id/chooseLevel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="20dp"
-        android:text="@string/choose_level"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/button_easy"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/logo"
+        android:foregroundGravity="top"
+        android:src="@drawable/logo" />
 
-    <Button
-        android:id="@+id/button_easy"
-        style="@style/StyleSettingLevel"
-        android:layout_marginBottom="30dp"
-        android:background="@color/easyLevel"
-        android:text="@string/level_easy"
-        app:layout_constraintBottom_toTopOf="@+id/button_medium"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_medium"
-        style="@style/StyleSettingLevel"
-        android:layout_marginBottom="30dp"
-        android:background="@color/mediumLevel"
-        android:text="@string/level_medium"
-        app:layout_constraintBottom_toTopOf="@+id/button_hard"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_hard"
-        style="@style/StyleSettingLevel"
-        android:layout_marginBottom="30dp"
-        android:background="@color/hardLevel"
-        android:text="@string/level_hard"
-        app:layout_constraintBottom_toTopOf="@+id/button_last_game"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <Button
-        android:id="@+id/button_last_game"
-        style="@style/StyleSettingLevel"
-        android:layout_marginBottom="40dp"
-        android:background="@color/lastLevel"
-        android:text="@string/level_last"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
-</android.support.constraint.ConstraintLayout>
+    <FrameLayout
+        android:id="@+id/selectButtons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="bottom|center"/>
+</LinearLayout>

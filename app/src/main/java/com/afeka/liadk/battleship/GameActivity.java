@@ -40,9 +40,9 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         setContentView(R.layout.activity_game);
 
         Intent intent = getIntent();
-        Bundle level = intent.getBundleExtra(MainActivity.LEVEL_MESSAGE);
+        Bundle level = intent.getBundleExtra(GameSettingsInterface.LEVEL_MESSAGE);
         if (level != null) {
-            mChoosenLevel = (Level) level.getSerializable(MainActivity.LEVEL_CHOOSEN);
+            mChoosenLevel = (Level) level.getSerializable(GameSettingsInterface.LEVEL_CHOOSEN);
             if (mChoosenLevel != null) {
                 init();
                 Display display = getWindowManager().getDefaultDisplay();
@@ -87,11 +87,12 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                                                         mIntentResult.putExtra(GAME_STATUS, mBundleWinner);
                                                         startActivity(mIntentResult);
                                                         finish();
+                                                    } else {
+                                                        Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
+                                                        turn.setText(R.string.your_turn);
+                                                        mProgressBar.setVisibility(View.INVISIBLE);
+                                                        mGame.changeTurn();
                                                     }
-                                                    Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
-                                                    turn.setText(R.string.your_turn);
-                                                    mProgressBar.setVisibility(View.INVISIBLE);
-                                                    mGame.changeTurn();
                                                 }
                                             });
                                         }
@@ -113,8 +114,8 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         mIntentResult = new Intent(this, ResultActivity.class);
         mBundleWinner = new Bundle();
         Bundle bundleGameLevel = new Bundle();
-        bundleGameLevel.putSerializable(MainActivity.LEVEL_CHOOSEN, mChoosenLevel);
-        mIntentResult.putExtra(MainActivity.LEVEL_MESSAGE, bundleGameLevel);
+        bundleGameLevel.putSerializable(GameSettingsInterface.LEVEL_CHOOSEN, mChoosenLevel);
+        mIntentResult.putExtra(GameSettingsInterface.LEVEL_MESSAGE, bundleGameLevel);
         mProgressBar = ((ProgressBar) findViewById(R.id.progressBar));
         mProgressBar.setVisibility(View.INVISIBLE);
         turn = (TextView) findViewById(R.id.playerTurn);

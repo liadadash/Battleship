@@ -34,4 +34,6 @@
     <color name="resultButton1">#28abdf</color>
     <color name="resultButton2">#28b4ff</color>
 
+    <color name="startButton1">#00BCD4</color>
+    <color name="startButton2">#9C27B0</color>
 </resources>

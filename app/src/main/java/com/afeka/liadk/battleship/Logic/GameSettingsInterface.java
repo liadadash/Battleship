@@ -2,6 +2,9 @@ package com.afeka.liadk.battleship.Logic;
 
 public interface GameSettingsInterface {
 
+    final String LEVEL_MESSAGE = "LEVEL";
+    final String LEVEL_CHOOSEN = "CHOOSEN LEVEL";
+
     enum Level {
         Easy, Medium, Hard , Unknown;
 

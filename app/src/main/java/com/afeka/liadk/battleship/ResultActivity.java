@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+
 public class ResultActivity extends AppCompatActivity {
 
     private Bundle mLevelBundle;
@@ -37,7 +39,7 @@ public class ResultActivity extends AppCompatActivity {
                 animationDrawable.start();
             }
         }
-        mLevelBundle = intent.getBundleExtra(MainActivity.LEVEL_MESSAGE);
+        mLevelBundle = intent.getBundleExtra(GameSettingsInterface.LEVEL_MESSAGE);
 
     }
 
@@ -50,7 +52,7 @@ public class ResultActivity extends AppCompatActivity {
 
     public void tryAgainGame(View view) {
         Intent intent = new Intent(this, GameActivity.class);
-        intent.putExtra(MainActivity.LEVEL_MESSAGE, mLevelBundle);
+        intent.putExtra(GameSettingsInterface.LEVEL_MESSAGE, mLevelBundle);
         startActivity(intent);
         finish();
     }
