@@ -28,7 +28,9 @@
     <string name="target">target</string>
     <string name="highscores">High scores</string>
     <string name="enter_name">You win!!! Please enter your name</string>
+    <string name="enter_name_empty">Please enter your name to be in our winner table</string>
     <string name="ok">OK</string>
+    <string name="cancel">Cancel</string>
     <string name="name">Name</string>
     <string name="points">Points</string>
     <string name="no_data">No data</string>

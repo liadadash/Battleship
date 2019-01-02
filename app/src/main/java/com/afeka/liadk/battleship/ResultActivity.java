@@ -17,6 +17,7 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
     private Bundle mLevelBundle;
     private DataBaseHandler mDb;
     private int mStep;
+    private boolean mEmpy;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,20 +45,8 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
                 animationDrawable.start();
                 if (winner.compareTo(getResources().getString(R.string.win)) == 0) {
                     mDb = new DataBaseHandler(this);
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                    mEditText = new EditText(this);
-                    builder.setTitle(R.string.enter_name).setView(mEditText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (mEditText.getText().length() != 0) {
-                                Level level = (Level) mLevelBundle.getSerializable(GameSettingsInterface.LEVEL_CHOOSEN);
-                                if (level != null)
-                                    mDb.insertWinner(level, mEditText.getText().toString(), mStep);
-                            }
-                        }
-                    });
-                    AlertDialog dialog = builder.create();
-                    dialog.show();
+                    mEmpy = false;
+                    createDialog();
                 }
             }
         }
@@ -76,5 +65,34 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
         intent.putExtra(GameSettingsInterface.LEVEL_MESSAGE, mLevelBundle);
         startActivity(intent);
         finish();
+    }
+
+    private void createDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        mEditText = new EditText(this);
+        if (!mEmpy)
+            builder.setTitle(R.string.enter_name);
+        else
+            builder.setTitle(R.string.enter_name_empty);
+        builder.setView(mEditText).setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                if (mEditText.getText().length() != 0) {
+                    Level level = (Level) mLevelBundle.getSerializable(GameSettingsInterface.LEVEL_CHOOSEN);
+                    if (level != null)
+                        mDb.insertWinner(level, mEditText.getText().toString(), mStep);
+                }
+                else {
+                    mEmpy = true;
+                    createDialog();
+                }
+            }
+        }).setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+            }
+        });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 }
