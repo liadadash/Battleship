@@ -6,12 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
-
-import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
-public class HighscoreFragment extends Fragment implements View.OnClickListener {
+public class HighscoreFragment extends Fragment implements View.OnClickListener, GameSettingsInterface {
+
+    final int TOP_PLAYERS = 10;
 
     public HighscoreFragment() {
         // Required empty public constructor
@@ -20,6 +21,7 @@ public class HighscoreFragment extends Fragment implements View.OnClickListener 
     private DataBaseHandler mDb;
     private ListView mList;
     private ArrayList mWinners;
+    private View mViewNoData;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,8 @@ public class HighscoreFragment extends Fragment implements View.OnClickListener 
         View view = inflater.inflate(R.layout.fragment_highscore, container, false);
         mDb = new DataBaseHandler(view.getContext());
         mList = (ListView) view.findViewById(R.id.userData);
+        ((TextView) view.findViewById(R.id.textViewTop)).setText(getResources().getString(R.string.top_users) + " " + TOP_PLAYERS);
+        mViewNoData = view.findViewById(R.id.noScore);
         setWinners(view, R.id.button_easy);
         view.findViewById(R.id.button_easy).setOnClickListener(this);
         view.findViewById(R.id.button_medium).setOnClickListener(this);
@@ -47,20 +51,27 @@ public class HighscoreFragment extends Fragment implements View.OnClickListener 
     private void setWinners(View view, int id) {
         switch (id) {
             case R.id.button_easy:
-                mWinners = mDb.getData(GameSettingsInterface.Level.Easy.toString(), 10);
-                mList.setBackgroundColor(getResources().getColor(R.color.easyLevel));
-                mList.setAdapter(new UserAdapter(view.getContext(), mWinners));
+                setData(view, Level.Easy, R.color.easyLevel);
                 break;
             case R.id.button_medium:
-                mWinners = mDb.getData(GameSettingsInterface.Level.Medium.toString(), 10);
-                mList.setBackgroundColor(getResources().getColor(R.color.mediumLevel));
-                mList.setAdapter(new UserAdapter(view.getContext(), mWinners));
+                setData(view, Level.Medium, R.color.mediumLevel);
                 break;
             case R.id.button_hard:
-                mWinners = mDb.getData(GameSettingsInterface.Level.Hard.toString(), 10);
-                mList.setBackgroundColor(getResources().getColor(R.color.hardLevel));
-                mList.setAdapter(new UserAdapter(view.getContext(), mWinners));
+                setData(view, Level.Hard, R.color.hardLevel);
                 break;
+        }
+    }
+
+    private void setData(View view, Level level, int color) {
+        mWinners = mDb.getData(level, TOP_PLAYERS);
+        mList.setAdapter(new UserAdapter(view.getContext(), mWinners));
+        mList.setBackgroundColor(getResources().getColor(color));
+        if (mWinners.size() != 0) {
+            if (mViewNoData.getVisibility() != View.GONE)
+                mViewNoData.setVisibility(View.GONE);
+        } else {
+            if (mViewNoData.getVisibility() != View.VISIBLE)
+                mViewNoData.setVisibility(View.VISIBLE);
         }
     }
 }

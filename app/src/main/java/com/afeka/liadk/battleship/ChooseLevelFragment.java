@@ -3,7 +3,6 @@ package com.afeka.liadk.battleship;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,14 +10,16 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
-import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+public class ChooseLevelFragment extends Fragment implements View.OnClickListener, GameSettingsInterface {
 
-public class ChooseLevelFragment extends Fragment implements View.OnClickListener{
-
-    private static String lastChosenLevelKey = "last level";
-    private static int lastChosenLevel;
+    private final String LAST_LEVEL_CHOOSEN_Key = "LAST LEVEL";
+    private Level mLastLevel;
     private SharedPreferences mSharedPref;
     private boolean mHasLastGameLevel = false;
+    private Button mEasy;
+    private Button mMedium;
+    private Button mHard;
+    private Button mLast;
 
     public ChooseLevelFragment() {
         // Required empty public constructor
@@ -28,7 +29,7 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-        lastChosenLevel = mSharedPref.getInt(lastChosenLevelKey, GameSettingsInterface.Level.Unknown.ordinal());
+        mLastLevel = Level.values()[mSharedPref.getInt(LAST_LEVEL_CHOOSEN_Key, Level.Unknown.ordinal())];
     }
 
     @Override
@@ -36,10 +37,14 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_choose_level, container, false);
-        ((Button) view.findViewById(R.id.button_easy)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.button_medium)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.button_hard)).setOnClickListener(this);
-        ((Button) view.findViewById(R.id.button_last_game)).setOnClickListener(this);
+        mEasy = ((Button) view.findViewById(R.id.button_easy));
+        mEasy.setOnClickListener(this);
+        mMedium = ((Button) view.findViewById(R.id.button_medium));
+        mMedium.setOnClickListener(this);
+        mHard = ((Button) view.findViewById(R.id.button_hard));
+        mHard.setOnClickListener(this);
+        mLast = ((Button) view.findViewById(R.id.button_last_game));
+        mLast.setOnClickListener(this);
         return view;
     }
 
@@ -47,11 +52,12 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
     @Override
     public void onResume() {
         super.onResume();
-        if (lastChosenLevel == GameSettingsInterface.Level.Unknown.ordinal())
-            getActivity().findViewById(R.id.button_last_game).setVisibility(View.GONE);
+        if (mLastLevel == Level.Unknown)
+            mLast.setVisibility(View.GONE);
         else {
             mHasLastGameLevel = true;
-            getActivity().findViewById(R.id.button_last_game).setVisibility(View.VISIBLE);
+            mLast.setVisibility(View.VISIBLE);
+            setLastLevelColor();
         }
     }
 
@@ -59,7 +65,7 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
     public void onPause() {
         super.onPause();
         SharedPreferences.Editor sharedPrefEditor = mSharedPref.edit();
-        sharedPrefEditor.putInt(lastChosenLevelKey, lastChosenLevel);
+        sharedPrefEditor.putInt(LAST_LEVEL_CHOOSEN_Key, mLastLevel.ordinal());
         sharedPrefEditor.apply(); // commit()
     }
 
@@ -67,30 +73,60 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
     public void onClick(View view) {
         Intent intent = new Intent(getActivity(), GameActivity.class);
         Bundle bundleLevel = new Bundle();
+        removeLastLevelColor();
         switch (view.getId()) {
             case R.id.button_easy: {
-                bundleLevel.putSerializable(GameSettingsInterface.LEVEL_CHOOSEN, GameSettingsInterface.Level.Easy);
-                lastChosenLevel = GameSettingsInterface.Level.Easy.ordinal();
+                bundleLevel.putSerializable(LEVEL_CHOOSEN, Level.Easy);
+                mLastLevel = Level.Easy;
                 break;
             }
             case R.id.button_medium: {
-                bundleLevel.putSerializable(GameSettingsInterface.LEVEL_CHOOSEN, GameSettingsInterface.Level.Medium);
-                lastChosenLevel = GameSettingsInterface.Level.Medium.ordinal();
+                bundleLevel.putSerializable(LEVEL_CHOOSEN, Level.Medium);
+                mLastLevel = Level.Medium;
                 break;
             }
             case R.id.button_hard: {
-                bundleLevel.putSerializable(GameSettingsInterface.LEVEL_CHOOSEN, GameSettingsInterface.Level.Hard);
-                lastChosenLevel = GameSettingsInterface.Level.Hard.ordinal();
+                bundleLevel.putSerializable(LEVEL_CHOOSEN, Level.Hard);
+                mLastLevel = Level.Hard;
                 break;
             }
             case R.id.button_last_game: {
-                bundleLevel.putSerializable(GameSettingsInterface.LEVEL_CHOOSEN, GameSettingsInterface.Level.values()[lastChosenLevel]);
+                bundleLevel.putSerializable(LEVEL_CHOOSEN, mLastLevel);
                 break;
             }
         }
-        intent.putExtra(GameSettingsInterface.LEVEL_MESSAGE, bundleLevel);
+        intent.putExtra(LEVEL_MESSAGE, bundleLevel);
         startActivity(intent);
         if (!mHasLastGameLevel)
             mHasLastGameLevel = true;
+        setLastLevelColor();
+    }
+
+    private void setLastLevelColor() {
+        switch (mLastLevel) {
+            case Easy:
+                mEasy.setTextColor(getResources().getColor(R.color.lastLevel));
+                break;
+            case Medium:
+                mMedium.setTextColor(getResources().getColor(R.color.lastLevel));
+                break;
+            case Hard:
+                mHard.setTextColor(getResources().getColor(R.color.lastLevel));
+                break;
+        }
+    }
+
+    private void removeLastLevelColor() {
+        switch (mLastLevel) {
+            case Easy:
+                mEasy.setTextColor(getResources().getColor(R.color.black));
+                break;
+            case Medium:
+                mMedium.setTextColor(getResources().getColor(R.color.black));
+                break;
+            case Hard:
+                mHard.setTextColor(getResources().getColor(R.color.black));
+                break;
+        }
     }
 }

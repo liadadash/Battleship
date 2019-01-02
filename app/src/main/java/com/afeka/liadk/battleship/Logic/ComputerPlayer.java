@@ -2,6 +2,8 @@ package com.afeka.liadk.battleship.Logic;
 
 import android.graphics.Point;
 
+import com.afeka.liadk.battleship.GameSettingsInterface;
+
 import java.util.ArrayList;
 import java.util.Random;
 

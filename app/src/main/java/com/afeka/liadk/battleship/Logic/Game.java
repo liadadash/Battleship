@@ -1,5 +1,7 @@
 package com.afeka.liadk.battleship.Logic;
 
+import com.afeka.liadk.battleship.GameSettingsInterface;
+
 public class Game implements GameSettingsInterface {
 
     public enum Player {

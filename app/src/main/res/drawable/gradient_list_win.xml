@@ -2,11 +2,11 @@
 <animation-list xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:drawable="@drawable/gradient_win_1"
-        android:duration="6000" />
+        android:duration="2000" />
     <item
         android:drawable="@drawable/gradient_win_2"
-        android:duration="6000" />
+        android:duration="2000" />
     <item
         android:drawable="@drawable/gradient_win_3"
-        android:duration="6000" />
+        android:duration="2000" />
 </animation-list>

@@ -1,4 +1,4 @@
-package com.afeka.liadk.battleship.Logic;
+package com.afeka.liadk.battleship;
 
 public interface GameSettingsInterface {
 

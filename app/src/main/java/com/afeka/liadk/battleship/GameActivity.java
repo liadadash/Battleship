@@ -14,7 +14,6 @@ import android.widget.Toast;
 
 import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
-import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 
 public class GameActivity extends AppCompatActivity implements GameSettingsInterface {
 

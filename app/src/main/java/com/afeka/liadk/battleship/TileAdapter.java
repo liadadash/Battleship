@@ -8,7 +8,6 @@ import android.widget.GridView;
 
 import com.afeka.liadk.battleship.Logic.Board;
 import com.afeka.liadk.battleship.Logic.Game;
-import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 import com.afeka.liadk.battleship.Logic.Tile;
 
 public class TileAdapter extends BaseAdapter implements GameSettingsInterface {

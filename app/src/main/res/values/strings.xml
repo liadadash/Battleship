@@ -26,13 +26,11 @@
     <string name="logo">logo</string>
     <string name="ship">ship</string>
     <string name="target">target</string>
-
     <string name="highscores">High scores</string>
-    <string name="chooseLevel">Choose level</string>
-
-    <string name="enter_name">You win! Enter name</string>
+    <string name="enter_name">You win!!! Please enter your name</string>
     <string name="ok">OK</string>
-
     <string name="name">Name</string>
     <string name="points">Points</string>
+    <string name="no_data">No data</string>
+    <string name="top_users">Top</string>
 </resources>

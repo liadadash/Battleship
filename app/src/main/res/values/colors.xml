@@ -38,5 +38,5 @@
     <color name="startButton1">#00BCD4</color>
     <color name="startButton2">#9C27B0</color>
 
-    <color name="alertDialog">#781cc9</color>
+    <color name="transparent">#00000000</color>
 </resources>

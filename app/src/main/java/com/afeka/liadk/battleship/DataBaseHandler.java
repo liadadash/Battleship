@@ -7,11 +7,9 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
-import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
-
 import java.util.ArrayList;
 
-public class DataBaseHandler extends SQLiteOpenHelper {
+public class DataBaseHandler extends SQLiteOpenHelper implements GameSettingsInterface {
 
     private static final int DB_VERSION = 1;
     private static final String DATABASE_NAME = "Winners.db";
@@ -20,11 +18,9 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         super(context, DATABASE_NAME, null, DB_VERSION);
     }
 
-    private static final String TABLE_EASY = GameSettingsInterface.Level.Easy.toString();
-    private static final String TABLE_MEDIUM = GameSettingsInterface.Level.Medium.toString();
-    private static final String TABLE_HARD = GameSettingsInterface.Level.Hard.toString();
-
-    private static final String KEY_LEVEL_POINT = "levelPoints";
+    private static final String TABLE_EASY = Level.Easy.toString();
+    private static final String TABLE_MEDIUM = Level.Medium.toString();
+    private static final String TABLE_HARD = Level.Hard.toString();
 
     private static final String KEY_USER_ID = "id";
     private static final String KEY_USER_NAME = "name";
@@ -35,6 +31,18 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(createTable(TABLE_EASY));
         sqLiteDatabase.execSQL(createTable(TABLE_MEDIUM));
         sqLiteDatabase.execSQL(createTable(TABLE_HARD));
+    }
+
+    private String getLevelString(Level level) {
+        switch (level) {
+            case Easy:
+                return Level.Easy.toString();
+            case Medium:
+                return Level.Medium.toString();
+            case Hard:
+                return Level.Hard.toString();
+        }
+        return null;
     }
 
     @Override
@@ -49,14 +57,15 @@ public class DataBaseHandler extends SQLiteOpenHelper {
                 + KEY_USER_POINT + " INTEGER" + ")";
     }
 
-    public void insertWinner(String level, String name, int point) {
+    public void insertWinner(Level level, String name, int point) {
+        String choosenLevel = getLevelString(level);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        int id = numberOfRows(level);
+        int id = numberOfRows(choosenLevel);
         contentValues.put(KEY_USER_ID, id);
         contentValues.put(KEY_USER_NAME, name);
         contentValues.put(KEY_USER_POINT, point);
-        db.insert(level, null, contentValues);
+        db.insert(choosenLevel, null, contentValues);
     }
 
     private int numberOfRows(String table) {
@@ -64,13 +73,14 @@ public class DataBaseHandler extends SQLiteOpenHelper {
         return (int) DatabaseUtils.queryNumEntries(db, table);
     }
 
-    public ArrayList getData(String level, int numberOfPlayers) {
+    public ArrayList getData(Level level, int numberOfPlayers) {
+        String choosenLevel = getLevelString(level);
         SQLiteDatabase db = this.getReadableDatabase();
 
         String sortOrder = KEY_USER_POINT + " , " + KEY_USER_NAME + " DESC";
 
         Cursor cursor = db.query(
-                level,
+                choosenLevel,
                 new String[]{KEY_USER_NAME, KEY_USER_POINT},
                 null,
                 null,

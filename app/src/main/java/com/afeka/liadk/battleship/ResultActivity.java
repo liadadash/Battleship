@@ -1,6 +1,5 @@
 package com.afeka.liadk.battleship;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
@@ -8,14 +7,11 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
-
-public class ResultActivity extends AppCompatActivity {
+public class ResultActivity extends AppCompatActivity implements GameSettingsInterface {
 
     private EditText mEditText;
     private Bundle mLevelBundle;
@@ -28,8 +24,7 @@ public class ResultActivity extends AppCompatActivity {
         setContentView(R.layout.activity_result);
         Intent intent = getIntent();
         Bundle state = intent.getBundleExtra(GameActivity.GAME_STATUS);
-        AnimationDrawable animationDrawable = null;
-        int step;
+        AnimationDrawable animationDrawable;
         if (state != null) {
             String winner = state.getString(GameActivity.WHO_WIN);
             if (winner != null) {
@@ -37,15 +32,15 @@ public class ResultActivity extends AppCompatActivity {
                 whoWin.setText(winner);
                 if (winner.compareTo(getResources().getString(R.string.win)) == 0) {
                     mStep = state.getInt(GameActivity.NUMBER_OF_STEPS);
-                    animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.gradient__list_win, null);
+                    animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.gradient_list_win, null);
                     findViewById(R.id.loseResult).setVisibility(View.INVISIBLE);
                 } else {
-                    animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.gradient__list_lose, null);
+                    animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.gradient_list_lose, null);
                     findViewById(R.id.winResult).setVisibility(View.INVISIBLE);
                 }
                 ((RelativeLayout) findViewById(R.id.resultLayout)).setBackground(animationDrawable);
                 animationDrawable.setEnterFadeDuration(1000);
-                animationDrawable.setExitFadeDuration(2000);
+                animationDrawable.setExitFadeDuration(1000);
                 animationDrawable.start();
                 if (winner.compareTo(getResources().getString(R.string.win)) == 0) {
                     mDb = new DataBaseHandler(this);
@@ -55,7 +50,9 @@ public class ResultActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             if (mEditText.getText().length() != 0) {
-                                mDb.insertWinner(mLevelBundle.getSerializable(GameSettingsInterface.LEVEL_CHOOSEN).toString(), mEditText.getText().toString(), mStep);
+                                Level level = (Level) mLevelBundle.getSerializable(GameSettingsInterface.LEVEL_CHOOSEN);
+                                if (level != null)
+                                    mDb.insertWinner(level, mEditText.getText().toString(), mStep);
                             }
                         }
                     });
