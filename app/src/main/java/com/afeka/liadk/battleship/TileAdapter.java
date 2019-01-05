@@ -1,6 +1,8 @@
 package com.afeka.liadk.battleship;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -59,16 +61,34 @@ public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
     private void checkTileStatus(TileView tileView, int position) {
         if (mBoard.getTile(position).getStatus() == Tile.TileState.NONE && mPlayer == Game.Player.HumanPlayer) {
             tileView.setBackgroundResource(R.color.colorUnknown);
-        } else if (mBoard.getTile(position).getStatus() == Tile.TileState.MISS)
-            tileView.setBackgroundResource(R.color.colorMissed);
-        else if (mBoard.getTile(position).getStatus() == Tile.TileState.INJURED_WITH_SHIPS)
-            tileView.setBackgroundResource(R.color.colorHit);
-        else if (mBoard.getTile(position).getStatus() == Tile.TileState.DROWNED)
-            tileView.setBackgroundResource(R.color.colorShipDrowned);
-        else if (mBoard.getTile(position).getStatus() == Tile.TileState.SHIP && mPlayer == Game.Player.HumanPlayer)
+            return;
+        }
+        if (mBoard.getTile(position).getStatus() == Tile.TileState.SHIP && mPlayer == Game.Player.HumanPlayer) {
             tileView.setBackgroundResource(R.color.colorOccupied);
-        else tileView.setBackgroundResource(R.color.colorVacant);
-
+            return;
+        }
+        switch (mBoard.getTile(position).getStatus()) {
+            case MISS:
+                if (!tileView.isClicked())
+                    tileView.ClickMe(Tile.TileState.MISS);
+                else
+                    tileView.setBackgroundResource(R.color.colorMissed);
+                break;
+            case INJURED_WITH_SHIPS:
+                if (!tileView.isClicked())
+                    tileView.ClickMe(Tile.TileState.INJURED_WITH_SHIPS);
+                else
+                    tileView.setBackgroundResource(R.color.colorHit);
+                break;
+            case DROWNED:
+                if (!tileView.isDrowned())
+                    tileView.ClickMe(Tile.TileState.DROWNED);
+                else
+                    tileView.setBackgroundResource(R.color.colorShipDrowned);
+                break;
+            default:
+                tileView.setBackgroundResource(R.color.colorVacant);
+                break;
+        }
     }
-
 }

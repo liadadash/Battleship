@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/explotion" android:oneshot="true">
+    <item android:drawable="@drawable/tile006" android:duration="50" />
+    <item android:drawable="@drawable/tile008" android:duration="50" />
+    <item android:drawable="@drawable/tile010" android:duration="50" />
+    <item android:drawable="@drawable/tile012" android:duration="50" />
+    <item android:drawable="@drawable/tile014" android:duration="50" />
+    <item android:drawable="@drawable/tile016" android:duration="50" />
+    <item android:drawable="@drawable/tile018" android:duration="50" />
+    <item android:drawable="@drawable/tile020" android:duration="50" />
+    <item android:drawable="@drawable/tile022" android:duration="50" />
+    <item android:drawable="@drawable/tile024" android:duration="50" />
+    <item android:drawable="@drawable/tile026" android:duration="50" />
+    <item android:drawable="@drawable/tile028" android:duration="50" />
+    <item android:drawable="@drawable/tile030" android:duration="50" />
+    <item android:drawable="@drawable/tile032" android:duration="50" />
+    <item android:drawable="@drawable/tile034" android:duration="50" />
+    <item android:drawable="@drawable/tile036" android:duration="50" />
+    <item android:drawable="@drawable/tile038" android:duration="50" />
+    <item android:drawable="@drawable/tile040" android:duration="50" />
+    <item android:drawable="@drawable/tile042" android:duration="50" />
+    <item android:drawable="@drawable/tile044" android:duration="50" />
+    <item android:drawable="@drawable/tile046" android:duration="50" />
+    <item android:drawable="@drawable/tile048" android:duration="50" />
+    <item android:drawable="@drawable/tile050" android:duration="50" />
+    <item android:drawable="@drawable/tile052" android:duration="50" />
+    <item android:drawable="@drawable/tile054" android:duration="50" />
+    <item android:drawable="@color/colorShipDrowned" android:duration="50" />
+</animation-list>

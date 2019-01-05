@@ -41,8 +41,8 @@
             android:layout_marginBottom="30dp"
             android:background="@color/mediumLevel"
             android:text="@string/level_medium"
-            app:layout_constraintBottom_toTopOf="@+id/button_hard"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/button_hard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 

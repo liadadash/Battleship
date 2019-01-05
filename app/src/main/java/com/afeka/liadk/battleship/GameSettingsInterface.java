@@ -6,7 +6,7 @@ public interface GameSettingsInterface {
     final String LEVEL_CHOOSEN = "CHOOSEN LEVEL";
 
     enum Level {
-        Easy, Medium, Hard , Unknown;
+        Easy, Medium, Hard, Unknown;
 
         private int widthEasy = 4;
         private int heightEasy = 4;

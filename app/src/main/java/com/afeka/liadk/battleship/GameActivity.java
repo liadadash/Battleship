@@ -12,6 +12,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afeka.liadk.battleship.Logic.Board;
 import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
 
@@ -33,7 +34,6 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     private StringBuilder mShipComputer, mShipsPlayer;
     private Intent mIntentResult;
     private Bundle mBundleWinner;
-    private Bundle mBundleWinnerSteps;
     private int mSteps;
 
     @Override

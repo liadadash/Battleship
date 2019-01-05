@@ -16,6 +16,7 @@ public class MainStartFragment extends Fragment {
 
     interface onButtonTouchedListener {
         void onButtonTouchedPlay();
+
         void onButtonTouchedHighScore();
     }
 
@@ -31,22 +32,22 @@ public class MainStartFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main_start, container, false);
 
-        Button b = (Button)view.findViewById(R.id.chooseLevelButton);
+        Button b = (Button) view.findViewById(R.id.chooseLevelButton);
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MainStartFragment.this.mListener != null)
+                if (MainStartFragment.this.mListener != null)
                     MainStartFragment.this.mListener.onButtonTouchedPlay();
             }
         });
 
-        b = (Button)view.findViewById(R.id.highscores);
+        b = (Button) view.findViewById(R.id.highscores);
 
         b.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(MainStartFragment.this.mListener != null)
+                if (MainStartFragment.this.mListener != null)
                     MainStartFragment.this.mListener.onButtonTouchedHighScore();
             }
         });

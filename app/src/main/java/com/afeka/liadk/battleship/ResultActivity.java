@@ -7,6 +7,9 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -18,6 +21,7 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
     private DataBaseHandler mDb;
     private int mStep;
     private boolean mEmpy;
+    private View mImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +39,11 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
                     mStep = state.getInt(GameActivity.NUMBER_OF_STEPS);
                     animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.gradient_list_win, null);
                     findViewById(R.id.loseResult).setVisibility(View.INVISIBLE);
+                    mImage = findViewById(R.id.winResult);
                 } else {
                     animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.gradient_list_lose, null);
                     findViewById(R.id.winResult).setVisibility(View.INVISIBLE);
+                    mImage = findViewById(R.id.loseResult);
                 }
                 ((RelativeLayout) findViewById(R.id.resultLayout)).setBackground(animationDrawable);
                 animationDrawable.setEnterFadeDuration(1000);
@@ -48,6 +54,13 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
                     mEmpy = false;
                     createDialog();
                 }
+
+                RotateAnimation anim = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+                anim.setInterpolator(new LinearInterpolator());
+                anim.setRepeatCount(Animation.INFINITE);
+                anim.setDuration(10000);
+
+                mImage.startAnimation(anim);
             }
         }
         mLevelBundle = intent.getBundleExtra(GameSettingsInterface.LEVEL_MESSAGE);
@@ -81,8 +94,7 @@ public class ResultActivity extends AppCompatActivity implements GameSettingsInt
                     Level level = (Level) mLevelBundle.getSerializable(GameSettingsInterface.LEVEL_CHOOSEN);
                     if (level != null)
                         mDb.insertWinner(level, mEditText.getText().toString(), mStep);
-                }
-                else {
+                } else {
                     mEmpy = true;
                     createDialog();
                 }

@@ -147,9 +147,9 @@
 
                 <TextView
                     style="@style/StyleSettingGameColor"
+                    android:layout_alignParentStart="true"
                     android:gravity="bottom"
-                    android:text="@string/computer_board"
-                    android:layout_alignParentStart="true" />
+                    android:text="@string/computer_board" />
 
 
                 <TextView
