@@ -44,4 +44,9 @@ public class Tile {
     public TileState getStatus() {
         return mStatus;
     }
+
+    public void cleanMiss() {
+        if (mStatus == TileState.MISS)
+            mStatus = TileState.NONE;
+    }
 }

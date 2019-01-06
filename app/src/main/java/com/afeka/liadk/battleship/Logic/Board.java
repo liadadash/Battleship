@@ -89,4 +89,9 @@ public class Board {
     public boolean checkWinner() {
         return mDidAllMyShipsDied;
     }
+
+    public void cleanMiss(){
+        for (Tile t :mTiles)
+            t.cleanMiss();
+    }
 }

@@ -1,8 +1,13 @@
 package com.afeka.liadk.battleship;
 
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Point;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.View;
@@ -16,7 +21,7 @@ import com.afeka.liadk.battleship.Logic.Board;
 import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
 
-public class GameActivity extends AppCompatActivity implements GameSettingsInterface {
+public class GameActivity extends AppCompatActivity implements GameSettingsInterface, MovingDeviceService.onDeviceMovedListener {
 
     final static String GAME_STATUS = "STATUS";
     final static String WHO_WIN = "WHO WIN";
@@ -35,6 +40,10 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     private Intent mIntentResult;
     private Bundle mBundleWinner;
     private int mSteps;
+    private MovingDeviceService mService;
+    boolean mBound = false;
+    private MovingDeviceService.onDeviceMovedListener me = this;
+    private AnimationDrawable animationDrawable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,10 +120,17 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                 });
             }
         }
+    }
 
+    private void animation(){
+        animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.alert_animation, null);
+        findViewById(R.id.game).setBackground(animationDrawable);
+        animationDrawable.setEnterFadeDuration(1000);
+        animationDrawable.setExitFadeDuration(1000);
     }
 
     private void init() {
+        animation();
         mSteps = 0;
         mIntentResult = new Intent(this, ResultActivity.class);
         mBundleWinner = new Bundle();
@@ -135,5 +151,62 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         mPlayerBoard = findViewById(R.id.playerBoard);
         mComputerBoard = findViewById(R.id.computerBoard);
         mComputerPlayer = new ComputerPlayer(mChoosenLevel, mGame.getPlayerBoard());
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        @Override
+        public void onServiceConnected(ComponentName className, IBinder service) {
+            MovingDeviceService.MovingDeviceBinder binder = (MovingDeviceService.MovingDeviceBinder) service;
+            mService = binder.getService();
+            mService.registerListener(me);
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName arg0) {
+            mBound = false;
+        }
+    };
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, MovingDeviceService.class);
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unbindService(mConnection);
+        mService.unRegisterListener();
+        mBound = false;
+    }
+
+    @Override
+    public void onDeviceMoved() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                animationDrawable.start();
+            }
+        });
+    }
+
+    @Override
+    public void onDeviceStillNotBack() {
+
+    }
+
+    @Override
+    public void onDeviceBack() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                animationDrawable.stop();
+                animation();
+            }
+        });
     }
 }
