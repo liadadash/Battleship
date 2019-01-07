@@ -16,11 +16,11 @@ import com.afeka.liadk.battleship.Logic.Tile;
 
 public class TileView extends View {
 
-    private boolean clicked, drowned;
+    private boolean drowned;
 
     public TileView(Context context) {
         super(context);
-        drowned = clicked = false;
+        drowned = false;
     }
 
     public void ClickMe(Tile.TileState state) {
@@ -40,11 +40,6 @@ public class TileView extends View {
         }
         setBackground(explosionAnimation);
         explosionAnimation.start();
-        clicked = true;
-    }
-
-    public boolean isClicked() {
-        return clicked;
     }
 
     public boolean isDrowned() {

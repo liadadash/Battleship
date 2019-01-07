@@ -6,6 +6,7 @@ public class Tile {
 
     private TileState mStatus;
     private Ship mShip;
+    private boolean clicked;
 
     public Tile() {
         mStatus = TileState.NONE;
@@ -15,6 +16,7 @@ public class Tile {
         if (mStatus == TileState.NONE) {
             mStatus = TileState.SHIP;
             mShip = ship;
+            clicked = false;
             return true;
         }
         return false;
@@ -23,6 +25,7 @@ public class Tile {
     public void removeShip() {
         mStatus = TileState.NONE;
         mShip = null;
+        clicked = false;
     }
 
     public boolean hit() {
@@ -37,7 +40,6 @@ public class Tile {
     }
 
     public void shipDead() {
-        mStatus = null;
         mStatus = TileState.DROWNED;
     }
 
@@ -46,7 +48,22 @@ public class Tile {
     }
 
     public void cleanMiss() {
-        if (mStatus == TileState.MISS)
+        if (mStatus == TileState.MISS) {
             mStatus = TileState.NONE;
+        }
+    }
+
+    public void setStatus(TileState state) {
+        mStatus = state;
+        if (state == TileState.NONE)
+            clicked = false;
+    }
+
+    public boolean isClicked() {
+        return clicked;
+    }
+
+    public void clicked() {
+        clicked = true;
     }
 }

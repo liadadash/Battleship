@@ -63,21 +63,23 @@ public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
             tileView.setBackgroundResource(R.color.colorUnknown);
             return;
         }
-        if (mBoard.getTile(position).getStatus() == Tile.TileState.SHIP && mPlayer == Game.Player.HumanPlayer) {
+        if (mBoard.getTile(position).getStatus() == Tile.TileState.SHIP/* && mPlayer == Game.Player.HumanPlayer*/) {
             tileView.setBackgroundResource(R.color.colorOccupied);
             return;
         }
         switch (mBoard.getTile(position).getStatus()) {
             case MISS:
-                if (!tileView.isClicked())
+                if (!mBoard.getTile(position).isClicked()) {
                     tileView.ClickMe(Tile.TileState.MISS);
-                else
+                    mBoard.getTile(position).clicked();
+                } else
                     tileView.setBackgroundResource(R.color.colorMissed);
                 break;
             case INJURED_WITH_SHIPS:
-                if (!tileView.isClicked())
+                if (!mBoard.getTile(position).isClicked()) {
                     tileView.ClickMe(Tile.TileState.INJURED_WITH_SHIPS);
-                else
+                    mBoard.getTile(position).clicked();
+                } else
                     tileView.setBackgroundResource(R.color.colorHit);
                 break;
             case DROWNED:

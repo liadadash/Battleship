@@ -9,6 +9,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Binder;
 import android.os.IBinder;
+import android.widget.Toast;
 
 public class MovingDeviceService extends Service implements SensorEventListener {
 
@@ -35,38 +36,38 @@ public class MovingDeviceService extends Service implements SensorEventListener 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
 
-            if (mFirst) {
-                mX = sensorEvent.values[0];
-                mY = sensorEvent.values[1];
-                mZ = sensorEvent.values[2];
-                called = mFirst = false;
-            } else {
-                if (Math.abs(mX - sensorEvent.values[0]) > MAX_DELTA || Math.abs(mY - sensorEvent.values[1]) > MAX_DELTA || Math.abs(mZ - sensorEvent.values[2]) > MAX_DELTA) {
-                    if (isMoved) {
-                        if ((sensorEvent.timestamp - mStartMove) * NS2S > MAX_TIME_SEC)
-                            if (!called) {
-                                if (mListener != null) {
-                                    mListener.onDeviceMoved();
-                                    called = true;
-                                    afterCall = sensorEvent.timestamp;
-                                }
-                            } else {
-                                if ((sensorEvent.timestamp - afterCall) * NS2S > MAX_TIME_AFTER_CALL) {
-                                    mListener.onDeviceStillNotBack();
-                                    afterCall = sensorEvent.timestamp;
-                                }
+        if (mFirst) {
+            mX = sensorEvent.values[0];
+            mY = sensorEvent.values[1];
+            mZ = sensorEvent.values[2];
+            called = mFirst = false;
+        } else {
+            if (Math.abs(mX - sensorEvent.values[0]) > MAX_DELTA || Math.abs(mY - sensorEvent.values[1]) > MAX_DELTA || Math.abs(mZ - sensorEvent.values[2]) > MAX_DELTA) {
+                if (isMoved) {
+                    if ((sensorEvent.timestamp - mStartMove) * NS2S > MAX_TIME_SEC)
+                        if (!called) {
+                            if (mListener != null) {
+                                mListener.onDeviceMoved();
+                                called = true;
+                                afterCall = sensorEvent.timestamp;
                             }
-                    } else {
-                        mStartMove = sensorEvent.timestamp;
-                        isMoved = true;
-                    }
+                        } else {
+                            if ((sensorEvent.timestamp - afterCall) * NS2S > MAX_TIME_AFTER_CALL) {
+                                mListener.onDeviceStillNotBack();
+                                afterCall = sensorEvent.timestamp;
+                            }
+                        }
                 } else {
-                    if (isMoved)
-                        if (mListener != null)
-                            mListener.onDeviceBack();
-                    called = isMoved = false;
+                    mStartMove = sensorEvent.timestamp;
+                    isMoved = true;
                 }
+            } else {
+                if (isMoved)
+                    if (mListener != null)
+                        mListener.onDeviceBack();
+                called = isMoved = false;
             }
+        }
     }
 
     @Override
@@ -88,7 +89,7 @@ public class MovingDeviceService extends Service implements SensorEventListener 
             mSensor = mSensorManager.getDefaultSensor(Sensor.TYPE_ROTATION_VECTOR);
             mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_UI);
         } else {
-            //print false
+            Toast.makeText(getApplicationContext(), R.string.dont_have_sensor, Toast.LENGTH_LONG).show();
             return null;
         }
         return mBinder;

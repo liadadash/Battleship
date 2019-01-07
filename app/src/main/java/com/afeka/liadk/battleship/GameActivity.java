@@ -122,7 +122,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         }
     }
 
-    private void animation(){
+    private void animation() {
         animationDrawable = (AnimationDrawable) getResources().getDrawable(R.drawable.alert_animation, null);
         findViewById(R.id.game).setBackground(animationDrawable);
         animationDrawable.setEnterFadeDuration(1000);
@@ -159,8 +159,10 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         public void onServiceConnected(ComponentName className, IBinder service) {
             MovingDeviceService.MovingDeviceBinder binder = (MovingDeviceService.MovingDeviceBinder) service;
             mService = binder.getService();
-            mService.registerListener(me);
-            mBound = true;
+            if (mService != null) {
+                mService.registerListener(me);
+                mBound = true;
+            }
         }
 
         @Override
@@ -179,9 +181,11 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     @Override
     protected void onStop() {
         super.onStop();
-        unbindService(mConnection);
-        mService.unRegisterListener();
-        mBound = false;
+        if (mBound) {
+            unbindService(mConnection);
+            mService.unRegisterListener();
+            mBound = false;
+        }
     }
 
     @Override
@@ -192,11 +196,13 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                 animationDrawable.start();
             }
         });
+        onDeviceStillNotBack();
     }
 
     @Override
     public void onDeviceStillNotBack() {
-
+        mGame.getCoumputerBoard().boardMove();
+        ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
     }
 
     @Override

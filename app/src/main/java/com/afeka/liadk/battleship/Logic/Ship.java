@@ -1,13 +1,11 @@
 package com.afeka.liadk.battleship.Logic;
 
 public class Ship {
-    private int mSize;
-    private boolean isDead;
+    private int mSize, mFullSize;
     private Tile mTiles[];
 
     public Ship(int size) {
-        isDead = false;
-        mSize = size;
+        mFullSize = mSize = size;
     }
 
     public boolean setShipToTile(Tile tiles[]) {
@@ -39,5 +37,27 @@ public class Ship {
                 mTiles[i] = null;
             }
         }
+    }
+
+    public int getSizeWithHit() {
+        return mSize;
+    }
+
+    public int getFullSize() {
+        return mFullSize;
+    }
+
+
+    public Tile getTile(int pos) {
+        return mTiles[pos];
+    }
+
+    public Tile.TileState[] getTileHelperStatus() {
+        Tile.TileState[] state = new Tile.TileState[mTiles.length];
+        for (int i = 0; i < mTiles.length; i++) {
+            state[i] = mTiles[i].getStatus();
+            mTiles[i].setStatus(Tile.TileState.NONE);
+        }
+        return state;
     }
 }

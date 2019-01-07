@@ -25,6 +25,7 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
         // Required empty public constructor
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +36,6 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_choose_level, container, false);
         mEasy = ((Button) view.findViewById(R.id.button_easy));
         mEasy.setOnClickListener(this);
@@ -66,7 +66,7 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
         super.onPause();
         SharedPreferences.Editor sharedPrefEditor = mSharedPref.edit();
         sharedPrefEditor.putInt(LAST_LEVEL_CHOOSEN_Key, mLastLevel.ordinal());
-        sharedPrefEditor.apply(); // commit()
+        sharedPrefEditor.commit();
     }
 
     @Override
@@ -96,10 +96,10 @@ public class ChooseLevelFragment extends Fragment implements View.OnClickListene
             }
         }
         intent.putExtra(LEVEL_MESSAGE, bundleLevel);
+        setLastLevelColor();
         startActivity(intent);
         if (!mHasLastGameLevel)
             mHasLastGameLevel = true;
-        setLastLevelColor();
     }
 
     private void setLastLevelColor() {

@@ -35,4 +35,5 @@
     <string name="points">Points</string>
     <string name="no_data">No data</string>
     <string name="top_users">Top</string>
+    <string name="dont_have_sensor">Sorry you don\'t have the sensor to play as full game</string>
 </resources>

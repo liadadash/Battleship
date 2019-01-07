@@ -10,9 +10,11 @@ public class Board {
     private int mNumberOfShips;
     private Tile mTiles[];
     private Ship mShips[];
+    private int mWeight, mHeight;
 
     public Board(int weight, int height, int[] ships) {
-
+        mWeight = weight;
+        mHeight = height;
         mTiles = new Tile[weight * height];
         for (int i = 0; i < mTiles.length; i++) {
             mTiles[i] = new Tile();
@@ -35,6 +37,7 @@ public class Board {
     }
 
     public void setShips(int[] ships, int weight, int height) {
+
         Tile shipTile[][] = new Tile[ships.length][];
         boolean succeeded;
         Random random = new Random();
@@ -90,8 +93,39 @@ public class Board {
         return mDidAllMyShipsDied;
     }
 
-    public void cleanMiss(){
-        for (Tile t :mTiles)
-            t.cleanMiss();
+    public void cleanMiss() {
+        for (int i = 0; i < mTiles.length; i++) {
+            mTiles[i].cleanMiss();
+        }
+    }
+
+    public void boardMove() {
+        cleanMiss();
+        Ship[] ship = new Ship[mNumberOfShips];
+        int count = 0;
+        for (int i = 0; i < mShips.length; i++) {
+            if (mShips[i].getSizeWithHit() > 0)
+                ship[count++] = mShips[i];
+        }
+        Tile.TileState[][] state = new Tile.TileState[mNumberOfShips][];
+        for (int i = 0; i < mNumberOfShips; i++) {
+            state[i] = ship[i].getTileHelperStatus();
+            for (int j = 0; j < ship[i].getFullSize(); j++) {
+                ship[i].getTile(j).removeShip();
+            }
+        }
+        int[] shipsLen = new int[ship.length];
+        for (int i = 0; i < ship.length; i++) {
+            shipsLen[i] = mShips[i].getFullSize();
+        }
+        setShips(shipsLen, mWeight, mHeight);
+        for (int i = 0; i < mNumberOfShips; i++) {
+            for (int j = 0; j < mShips[i].getFullSize(); j++) {
+                if (state[i][j] == Tile.TileState.INJURED_WITH_SHIPS) {
+                    mShips[i].getTile(j).hit();
+                    mShips[i].getTile(j).clicked();
+                }
+            }
+        }
     }
 }
