@@ -74,7 +74,7 @@
             style="@style/ResultButton"
             android:layout_marginStart="20dp"
             android:onClick="tryAgainGame"
-            android:text="@string/try_again" />
+            android:text="@string/play_again" />
     </LinearLayout>
 
 

@@ -47,7 +47,6 @@ public class Ship {
         return mFullSize;
     }
 
-
     public Tile getTile(int pos) {
         return mTiles[pos];
     }

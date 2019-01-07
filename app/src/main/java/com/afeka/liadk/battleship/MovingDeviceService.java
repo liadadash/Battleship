@@ -35,7 +35,6 @@ public class MovingDeviceService extends Service implements SensorEventListener 
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-
         if (mFirst) {
             mX = sensorEvent.values[0];
             mY = sensorEvent.values[1];
@@ -99,6 +98,7 @@ public class MovingDeviceService extends Service implements SensorEventListener 
     public boolean onUnbind(Intent intent) {
         boolean temp = super.onUnbind(intent);
         mSensorManager.unregisterListener(this);
+        mFirst = true;
         return temp;
     }
 

@@ -6,7 +6,7 @@
     <string name="level_hard">Hard</string>
     <string name="level_last">Last</string>
     <string name="new_game">New game</string>
-    <string name="try_again">Try again</string>
+    <string name="play_again">Play again</string>
     <string name="turn">Turn: \</string>
     <string name="your_turn">Player\'s turn</string>
     <string name="computer_turn">Computer\'s turn</string>

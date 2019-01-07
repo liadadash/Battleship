@@ -17,9 +17,9 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.afeka.liadk.battleship.Logic.Board;
 import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 
 public class GameActivity extends AppCompatActivity implements GameSettingsInterface, MovingDeviceService.onDeviceMovedListener {
 
@@ -190,34 +190,49 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
 
     @Override
     public void onDeviceMoved() {
-        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                animationDrawable.start();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        animationDrawable.start();
+                    }
+                });
+                onDeviceStillNotBack();
             }
-        });
-        onDeviceStillNotBack();
+        }).start();
     }
 
     @Override
     public void onDeviceStillNotBack() {
-        mGame.getCoumputerBoard().boardMove();
-        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
+                mGame.getCoumputerBoard().boardMove();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
+                    }
+                });
             }
-        });
+        }).start();
     }
 
     @Override
     public void onDeviceBack() {
-        runOnUiThread(new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-                animationDrawable.stop();
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        animationDrawable.stop();
+                    }
+                });
+                animation();
             }
-        });
-        animation();
+        }).start();
     }
 }

@@ -8,6 +8,9 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.afeka.liadk.battleship.Logic.DataBaseHandler;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+
 import java.util.ArrayList;
 
 public class HighscoreFragment extends Fragment implements View.OnClickListener, GameSettingsInterface {

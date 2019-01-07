@@ -1,4 +1,4 @@
-package com.afeka.liadk.battleship;
+package com.afeka.liadk.battleship.Logic;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -61,14 +61,14 @@ public class DataBaseHandler extends SQLiteOpenHelper implements GameSettingsInt
         String choosenLevel = getLevelString(level);
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        int id = numberOfRows(choosenLevel);
+        int id = getNumberOfRows(choosenLevel);
         contentValues.put(KEY_USER_ID, id);
         contentValues.put(KEY_USER_NAME, name);
         contentValues.put(KEY_USER_POINT, point);
         db.insert(choosenLevel, null, contentValues);
     }
 
-    private int numberOfRows(String table) {
+    private int getNumberOfRows(String table) {
         SQLiteDatabase db = this.getReadableDatabase();
         return (int) DatabaseUtils.queryNumEntries(db, table);
     }

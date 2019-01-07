@@ -1,5 +1,6 @@
 package com.afeka.liadk.battleship.Logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Board {
@@ -19,8 +20,6 @@ public class Board {
         for (int i = 0; i < mTiles.length; i++) {
             mTiles[i] = new Tile();
         }
-        mNumberOfShips = ships.length;
-        mShips = new Ship[mNumberOfShips];
         setShips(ships, weight, height);
     }
 
@@ -37,7 +36,8 @@ public class Board {
     }
 
     public void setShips(int[] ships, int weight, int height) {
-
+        mNumberOfShips = ships.length;
+        mShips = new Ship[mNumberOfShips];
         Tile shipTile[][] = new Tile[ships.length][];
         boolean succeeded;
         Random random = new Random();
@@ -101,22 +101,21 @@ public class Board {
 
     public void boardMove() {
         cleanMiss();
-        Ship[] ship = new Ship[mNumberOfShips];
-        int count = 0;
+        ArrayList<Ship> ship = new ArrayList<>();
         for (int i = 0; i < mShips.length; i++) {
             if (mShips[i].getSizeWithHit() > 0)
-                ship[count++] = mShips[i];
+                ship.add(mShips[i]);
         }
-        Tile.TileState[][] state = new Tile.TileState[mNumberOfShips][];
-        for (int i = 0; i < mNumberOfShips; i++) {
-            state[i] = ship[i].getTileHelperStatus();
-            for (int j = 0; j < ship[i].getFullSize(); j++) {
-                ship[i].getTile(j).removeShip();
+        Tile.TileState[][] state = new Tile.TileState[ship.size()][];
+        for (int i = 0; i < ship.size(); i++) {
+            state[i] = ship.get(i).getTileHelperStatus();
+            for (int j = 0; j < ship.get(i).getFullSize(); j++) {
+                ship.get(i).getTile(j).removeShip();
             }
         }
-        int[] shipsLen = new int[ship.length];
-        for (int i = 0; i < ship.length; i++) {
-            shipsLen[i] = mShips[i].getFullSize();
+        int[] shipsLen = new int[ship.size()];
+        for (int i = 0; i < ship.size(); i++) {
+            shipsLen[i] = ship.get(i).getFullSize();
         }
         setShips(shipsLen, mWeight, mHeight);
         for (int i = 0; i < mNumberOfShips; i++) {

@@ -10,6 +10,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+
 public class ChooseLevelFragment extends Fragment implements View.OnClickListener, GameSettingsInterface {
 
     private final String LAST_LEVEL_CHOOSEN_Key = "LAST LEVEL";

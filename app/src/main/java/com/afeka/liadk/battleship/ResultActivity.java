@@ -14,6 +14,9 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.afeka.liadk.battleship.Logic.DataBaseHandler;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+
 public class ResultActivity extends AppCompatActivity implements GameSettingsInterface {
 
     private EditText mEditText;

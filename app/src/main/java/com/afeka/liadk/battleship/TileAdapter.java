@@ -1,8 +1,7 @@
 package com.afeka.liadk.battleship;
 
 import android.content.Context;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.Drawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,6 +9,7 @@ import android.widget.GridView;
 
 import com.afeka.liadk.battleship.Logic.Board;
 import com.afeka.liadk.battleship.Logic.Game;
+import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
 import com.afeka.liadk.battleship.Logic.Tile;
 
 public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
@@ -44,7 +44,6 @@ public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
 
     @Override
     public View getView(int position, View convertView, ViewGroup viewGroup) {
-
         TileView tileView;
         if (convertView == null) {
             tileView = new TileView(mContext);
@@ -52,13 +51,11 @@ public class TileAdapter extends BaseAdapter implements GameSettingsInterface {
         } else {
             tileView = (TileView) convertView;
         }
-
         checkTileStatus(tileView, position);
-
         return tileView;
     }
 
-    private void checkTileStatus(TileView tileView, int position) {
+    public void checkTileStatus(TileView tileView, int position) {
         if (mBoard.getTile(position).getStatus() == Tile.TileState.NONE && mPlayer == Game.Player.HumanPlayer) {
             tileView.setBackgroundResource(R.color.colorUnknown);
             return;
