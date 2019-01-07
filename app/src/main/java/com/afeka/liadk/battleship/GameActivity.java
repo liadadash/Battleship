@@ -202,7 +202,12 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
     @Override
     public void onDeviceStillNotBack() {
         mGame.getCoumputerBoard().boardMove();
-        ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
+            }
+        });
     }
 
     @Override
@@ -211,8 +216,8 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
             @Override
             public void run() {
                 animationDrawable.stop();
-                animation();
             }
         });
+        animation();
     }
 }
