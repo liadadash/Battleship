@@ -73,7 +73,7 @@ public class ComputerPlayer {
         return false;
     }
 
-    public void play() {
+    public void play(boolean think) {
         removeDrowned();
         Tile tile;
         boolean isShoot = false;
@@ -83,7 +83,7 @@ public class ComputerPlayer {
                 mHitY = arrayList.get(0).y;
                 mHitX = arrayList.get(0).x;
                 goodDirection = endLine = changeDirection = false;
-                play();
+                play(think);
                 return;
             }
             Random random = new Random();
@@ -142,7 +142,7 @@ public class ComputerPlayer {
                             mIndex = 1;
                         endLine = true;
                         if (!isShoot) {
-                            play();
+                            play(think);
                             return;
                         }
                     } else {
@@ -152,7 +152,7 @@ public class ComputerPlayer {
                             endLine = false;
                             changeDirection = true;
                             if (!isShoot) {
-                                play();
+                                play(think);
                                 return;
                             }
                         } else {
@@ -160,7 +160,7 @@ public class ComputerPlayer {
                                 arrayList.remove(0);
                             hitShip = goodDirection = endLine = changeDirection = false;
                             if (!isShoot) {
-                                play();
+                                play(think);
                                 return;
                             }
                         }
@@ -168,12 +168,12 @@ public class ComputerPlayer {
                 }
             }
         }
-        if (isShoot) {
+        if (isShoot && think) {
             think();
         }
     }
 
-    public void removeDrowned() {
+    private void removeDrowned() {
         Point point;
         for (int i = 0; i < arrayList.size(); i++) {
             point = arrayList.get(i);

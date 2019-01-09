@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.afeka.liadk.battleship.Logic.ComputerPlayer;
 import com.afeka.liadk.battleship.Logic.Game;
 import com.afeka.liadk.battleship.Logic.GameSettingsInterface;
+import com.afeka.liadk.battleship.Logic.Tile;
 
 public class GameActivity extends AppCompatActivity implements GameSettingsInterface, MovingDeviceService.onDeviceMovedListener {
 
@@ -72,7 +73,10 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                             boolean playerHit = mGame.getCoumputerBoard().attackTheBoard(posotion);
                             if (playerHit) {
                                 mSteps++;
-                                ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
+                                if (!(mGame.getCoumputerBoard().getTile(posotion).getStatus() == Tile.TileState.DROWNED)) {
+                                    ((TileAdapter) mComputerBoard.getAdapter()).checkTileStatus(((TileView) view), posotion);
+                                } else
+                                    ((TileAdapter) mComputerBoard.getAdapter()).notifyDataSetChanged();
                                 mShipsPlayer = new StringBuilder(mLevelNumberOfShip - mGame.getCoumputerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
                                 mGameStatusPlayer.setText(mShipsPlayer);
                                 if (mGame.getCoumputerBoard().checkWinner()) {
@@ -85,32 +89,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                                     mGame.changeTurn();
                                     mProgressBar.setVisibility(View.VISIBLE);
                                     turn.setText(R.string.computer_turn);
-                                    Thread t = new Thread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            mComputerPlayer.play();
-                                            runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    ((TileAdapter) mPlayerBoard.getAdapter()).notifyDataSetChanged();
-                                                    mShipComputer = new StringBuilder(mLevelNumberOfShip - mGame.getPlayerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
-                                                    mGameStatusComputer.setText(mShipComputer);
-                                                    if (mGame.getPlayerBoard().checkWinner()) {
-                                                        mBundleWinner.putString(WHO_WIN, getResources().getString(R.string.lose));
-                                                        mIntentResult.putExtra(GAME_STATUS, mBundleWinner);
-                                                        startActivity(mIntentResult);
-                                                        finish();
-                                                    } else {
-                                                        Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
-                                                        turn.setText(R.string.your_turn);
-                                                        mProgressBar.setVisibility(View.INVISIBLE);
-                                                        mGame.changeTurn();
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    });
-                                    t.start();
+                                    computerPlay(true);
                                 }
                             }
                         } else {
@@ -120,6 +99,36 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
                 });
             }
         }
+    }
+
+    private void computerPlay(final boolean think) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                mComputerPlayer.play(think);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((TileAdapter) mPlayerBoard.getAdapter()).notifyDataSetChanged();
+                        mShipComputer = new StringBuilder(mLevelNumberOfShip - mGame.getPlayerBoard().getNumberOfShips() + "/" + mLevelNumberOfShip);
+                        mGameStatusComputer.setText(mShipComputer);
+                        if (mGame.getPlayerBoard().checkWinner()) {
+                            mBundleWinner.putString(WHO_WIN, getResources().getString(R.string.lose));
+                            mIntentResult.putExtra(GAME_STATUS, mBundleWinner);
+                            startActivity(mIntentResult);
+                            finish();
+                        } else {
+                            if (think) {
+                                Toast.makeText(getApplicationContext(), R.string.computer_finish_turn, Toast.LENGTH_SHORT).show();
+                                turn.setText(R.string.your_turn);
+                                mProgressBar.setVisibility(View.INVISIBLE);
+                                mGame.changeTurn();
+                            }
+                        }
+                    }
+                });
+            }
+        }).start();
     }
 
     private void animation() {
@@ -209,6 +218,7 @@ public class GameActivity extends AppCompatActivity implements GameSettingsInter
         new Thread(new Runnable() {
             @Override
             public void run() {
+                computerPlay(false);
                 mGame.getCoumputerBoard().boardMove();
                 runOnUiThread(new Runnable() {
                     @Override
