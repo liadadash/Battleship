@@ -1,6 +1,5 @@
 # Battleship
-Battleship game:
-attleship (also Battleships or Sea Battle[1]) is a guessing game for two players. It is played on ruled grids (paper or board) on which each players fleet of ships (including battleships) are marked. The locations of the fleets are concealed from the other player. Players alternate turns calling "shots" at the other player's ships, and the objective of the game is to destroy the opposing player's fleet. - [Wikipedia](https://en.wikipedia.org/wiki/Battleship_(game))
+Battleship (also Battleships or Sea Battle[1]) is a guessing game for two players. It is played on ruled grids (paper or board) on which each players fleet of ships (including battleships) are marked. The locations of the fleets are concealed from the other player. Players alternate turns calling "shots" at the other player's ships, and the objective of the game is to destroy the opposing player's fleet. - [Wikipedia](https://en.wikipedia.org/wiki/Battleship_(game))
 
 # Playing
 There are 3 levels in the game - easy, medium and difficult, plus a button that navigates to the last level you played.
